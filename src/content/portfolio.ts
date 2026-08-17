@@ -20,6 +20,19 @@ export const portfolio = {
   hostname: "debian",
   title: "Platform Engineer | Distributed Systems Specialist",
   location: "Tehran, Iran",
+  blurb: "I design backend platforms, distributed systems, and computer-vision pipelines that run in production.",
+  bullets: [
+    "Backend platforms & APIs (Python, Go, FastAPI, Django)",
+    "Distributed systems (Kafka, Pulsar, Kubernetes)",
+    "Computer vision & applied AI (OpenCV, YOLO, PyTorch)",
+  ],
+  showcase: {
+    title: "NeoSafe + OpenCV",
+    metric: "75% faster incident response",
+    latency: "Sub-200ms camera-to-alert",
+    opencv: "OpenCV 5.x ColorHashTSDF — PR #27823",
+    stack: ["FastAPI", "Pulsar", "ScyllaDB", "Kubernetes", "YOLO", "OpenCV"],
+  },
   about: `Software engineer specializing in backend platforms, distributed systems, computer vision, and applied AI.
 
 3+ years designing and building production systems across backend services, real-time processing, AI/CV pipelines, and edge infrastructure. Hands-on with Python, Go, Django, FastAPI, PostgreSQL, Kafka, Pulsar, Docker, and Kubernetes.
