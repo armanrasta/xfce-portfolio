@@ -1,0 +1,406 @@
+.desktop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  animation: fade-in 0.35s ease;
+}
+
+/* —— Top panel (Debian XFCE) —— */
+.panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--panel-height);
+  z-index: 500;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 1px 2px;
+  background: linear-gradient(
+    180deg,
+    var(--xfce-panel-top) 0%,
+    var(--xfce-panel) 45%,
+    var(--xfce-panel-bottom) 100%
+  );
+  border-bottom: 1px solid var(--xfce-panel-border);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+.panel-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--xfce-text);
+  white-space: nowrap;
+}
+
+.panel-menu-btn:hover,
+.panel-menu-btn.active {
+  background: linear-gradient(180deg, #fff, var(--xfce-panel-hover));
+  border-color: var(--xfce-panel-border);
+}
+
+.panel-launchers {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 0 4px;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.panel-launcher {
+  width: 26px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  padding: 0;
+}
+
+.panel-launcher:hover {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: var(--xfce-panel-border);
+}
+
+.panel-tasks {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 0 4px;
+}
+
+.panel-task {
+  max-width: 180px;
+  padding: 0 8px;
+  border: 1px solid var(--xfce-panel-border);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f7f7f7, #d0d0d0);
+  font-size: 11px;
+  color: var(--xfce-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.panel-task span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-task:hover {
+  filter: brightness(1.04);
+}
+
+.panel-task.active {
+  background: linear-gradient(180deg, #d8ebf8, #9ec4de);
+  border-color: var(--xfce-accent);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.panel-task.min {
+  opacity: 0.65;
+  font-style: italic;
+}
+
+.panel-tray {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  border-left: 1px solid var(--xfce-panel-border);
+  font-size: 12px;
+  color: #333;
+}
+
+.tray-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--debian-red);
+  padding: 1px 5px;
+  border-radius: 2px;
+  line-height: 1.4;
+}
+
+.tray-icon {
+  display: grid;
+  place-items: center;
+  opacity: 0.75;
+  color: #333;
+}
+
+.panel-clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  padding: 0 2px;
+  white-space: nowrap;
+}
+
+/* —— Whisker-style menu (drops from top) —— */
+.app-menu {
+  position: absolute;
+  left: 2px;
+  top: calc(var(--panel-height) + 2px);
+  width: min(300px, calc(100vw - 8px));
+  max-height: calc(100vh - var(--panel-height) - 16px);
+  overflow: auto;
+  z-index: 600;
+  background: var(--xfce-menu);
+  border: 1px solid var(--xfce-window-border);
+  box-shadow: var(--xfce-shadow);
+  border-radius: 0 0 3px 3px;
+  padding: 0 0 6px;
+  animation: window-in 0.12s ease-out;
+}
+
+.app-menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+  color: #fff;
+  border-bottom: 3px solid var(--debian-red);
+}
+
+.app-menu-brand strong {
+  display: block;
+  font-size: 14px;
+}
+
+.app-menu-brand span {
+  display: block;
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.app-menu-header {
+  padding: 8px 14px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--xfce-muted);
+}
+
+.app-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  color: var(--xfce-text);
+}
+
+.app-menu-item:hover {
+  background: var(--xfce-accent);
+  color: #fff;
+}
+
+.app-menu-item:hover .app-menu-desc {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.app-menu-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.app-menu-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.app-menu-desc {
+  font-size: 11px;
+  color: var(--xfce-muted);
+}
+
+.app-menu-emoji {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  background: #e8e8e8;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.app-menu-item:hover .app-menu-emoji {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: transparent;
+  color: #fff;
+}
+
+.app-menu-sep {
+  height: 1px;
+  background: #ccc;
+  margin: 6px 10px;
+}
+
+/* —— Wallpaper (Debian-inspired) —— */
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  top: var(--panel-height);
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 75% 25%,
+      rgba(168, 0, 48, 0.22),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 80% 60% at 20% 80%,
+      rgba(40, 90, 140, 0.45),
+      transparent 50%
+    ),
+    linear-gradient(155deg, #6a92b8 0%, #3d628a 42%, #254a6e 78%, #1a3550 100%);
+}
+
+.wallpaper-swirl {
+  position: absolute;
+  right: 6%;
+  bottom: 10%;
+  width: min(340px, 42vw);
+  height: min(340px, 42vw);
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 200deg,
+      transparent 0deg,
+      rgba(168, 0, 48, 0.35) 40deg,
+      transparent 90deg,
+      rgba(255, 255, 255, 0.08) 140deg,
+      transparent 200deg,
+      rgba(168, 0, 48, 0.2) 260deg,
+      transparent 320deg
+    );
+  filter: blur(1px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.wallpaper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* —— Desktop icons —— */
+.desktop-icons {
+  position: absolute;
+  top: var(--desktop-pad-top);
+  left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2;
+}
+
+.desk-icon {
+  width: 88px;
+  padding: 8px 4px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.desk-icon:hover,
+.desk-icon:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
+  outline: none;
+}
+
+.desk-icon:active {
+  background: rgba(57, 142, 231, 0.35);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.desk-icon-img {
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+  line-height: 0;
+}
+
+.desk-icon-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.desk-icon:hover .desk-icon-label {
+  background: rgba(0, 80, 160, 0.55);
+}
+
+.window-layer {
+  position: absolute;
+  inset: 0;
+  top: var(--panel-height);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.window-layer > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 640px) {
+  .panel-menu-label {
+    display: none;
+  }
+
+  .panel-launchers {
+    display: none;
+  }
+
+  .panel-task {
+    max-width: 96px;
+  }
+
+  .panel-clock {
+    font-size: 10px;
+  }
+
+  .desk-icon {
+    width: 76px;
+  }
+}
