@@ -4,9 +4,9 @@
   flex-direction: column;
   background: var(--xfce-window);
   border: 1px solid var(--xfce-window-border);
-  box-shadow: var(--xfce-shadow);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
   border-radius: 0;
-  animation: window-in 0.14s ease-out;
+  animation: window-in 0.18s ease-out;
   min-width: 280px;
   min-height: 160px;
 }
@@ -99,4 +99,77 @@
 .win-body > * {
   flex: 1;
   min-height: 0;
+}
+
+.win-resize {
+  position: absolute;
+  z-index: 3;
+}
+
+.win-resize-n {
+  top: -2px;
+  left: 8px;
+  right: 8px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.win-resize-s {
+  bottom: -2px;
+  left: 8px;
+  right: 8px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.win-resize-e {
+  top: 8px;
+  right: -2px;
+  bottom: 8px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.win-resize-w {
+  top: 8px;
+  left: -2px;
+  bottom: 8px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.win-resize-ne {
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  cursor: nesw-resize;
+}
+
+.win-resize-nw {
+  top: -2px;
+  left: -2px;
+  width: 10px;
+  height: 10px;
+  cursor: nwse-resize;
+}
+
+.win-resize-se {
+  bottom: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+}
+
+.win-resize-sw {
+  bottom: -2px;
+  left: -2px;
+  width: 10px;
+  height: 10px;
+  cursor: nesw-resize;
+}
+
+.win-max .win-resize {
+  display: none;
 }

@@ -14,6 +14,12 @@ type Props = {
   children: ReactNode;
 };
 
+type Edge = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+
+const MIN_W = 320;
+const MIN_H = 200;
+const EDGES: Edge[] = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
+
 export function WindowFrame({ win, children }: Props) {
   const {
     state,
@@ -22,6 +28,7 @@ export function WindowFrame({ win, children }: Props) {
     minimizeApp,
     toggleMaximize,
     moveWindow,
+    resizeWindow,
   } = useSession();
   const active = state.focusedId === win.id && !win.minimized;
   const drag = useRef<{ ox: number; oy: number; sx: number; sy: number } | null>(
@@ -60,6 +67,62 @@ export function WindowFrame({ win, children }: Props) {
       window.addEventListener("mouseup", onUp);
     },
     [focusApp, moveWindow, win],
+  );
+
+  const onResizeDown = useCallback(
+    (edge: Edge) => (e: ReactMouseEvent) => {
+      if (win.maximized) return;
+      e.preventDefault();
+      e.stopPropagation();
+      focusApp(win.id);
+      const start = {
+        x: e.clientX,
+        y: e.clientY,
+        wx: win.x,
+        wy: win.y,
+        ww: win.width,
+        wh: win.height,
+      };
+
+      const onMove = (ev: MouseEvent) => {
+        const dx = ev.clientX - start.x;
+        const dy = ev.clientY - start.y;
+        let x = start.wx;
+        let y = start.wy;
+        let w = start.ww;
+        let h = start.wh;
+
+        if (edge.includes("e")) w = start.ww + dx;
+        if (edge.includes("s")) h = start.wh + dy;
+        if (edge.includes("w")) {
+          w = start.ww - dx;
+          x = start.wx + dx;
+        }
+        if (edge.includes("n")) {
+          h = start.wh - dy;
+          y = start.wy + dy;
+        }
+
+        if (w < MIN_W) {
+          if (edge.includes("w")) x = start.wx + start.ww - MIN_W;
+          w = MIN_W;
+        }
+        if (h < MIN_H) {
+          if (edge.includes("n")) y = start.wy + start.wh - MIN_H;
+          h = MIN_H;
+        }
+
+        moveWindow(win.id, x, Math.max(0, y));
+        resizeWindow(win.id, w, h);
+      };
+      const onUp = () => {
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("mouseup", onUp);
+      };
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
+    },
+    [focusApp, moveWindow, resizeWindow, win],
   );
 
   if (win.minimized) return null;
@@ -150,6 +213,14 @@ export function WindowFrame({ win, children }: Props) {
         </div>
       </div>
       <div className="win-body">{children}</div>
+      {!win.maximized &&
+        EDGES.map((edge) => (
+          <div
+            key={edge}
+            className={`win-resize win-resize-${edge}`}
+            onMouseDown={onResizeDown(edge)}
+          />
+        ))}
     </div>
   );
 }
