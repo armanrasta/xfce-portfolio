@@ -20,6 +20,19 @@ export const portfolio = {
   hostname: "debian",
   title: "Platform Engineer | Distributed Systems Specialist",
   location: "Tehran, Iran",
+  siteUrl: "https://armanrostami.ir",
+  seoTitle: "Arman Rostami — Platform Engineer | Distributed Systems Specialist",
+  seoDescription:
+    "Arman Rostami is a Platform Engineer and Distributed Systems Specialist in Tehran. Backend platforms, Kubernetes, Pulsar, computer vision, OpenCV, and production AI systems — portfolio and resume.",
+  seoKeywords: [
+    "Arman Rostami",
+    "Arman Rostami Platform Engineer",
+    "Arman Rostami Distributed Systems",
+    "Platform Engineer Tehran",
+    "Distributed Systems Specialist",
+    "OpenCV developer",
+    "Kubernetes engineer",
+  ],
   blurb: "I design backend platforms, distributed systems, and computer-vision pipelines that run in production.",
   bullets: [
     "Backend platforms & APIs (Python, Go, FastAPI, Django)",

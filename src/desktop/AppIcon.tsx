@@ -52,23 +52,14 @@ export function AppIcon({ id, size = 32, className }: Props) {
       );
     case "firefox":
       return (
-        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
-          <circle cx="24" cy="24" r="20" fill="#20123a" />
-          <path
-            fill="#ff7139"
-            d="M24 6c-9.9 0-18 8.1-18 18 0 2.4.5 4.7 1.3 6.8C10.2 20.4 18.6 14 28.5 14c.6 0 1.2 0 1.8.1C28.2 9.4 24.4 6.4 20 6.1 21.3 6 22.6 6 24 6z"
-          />
-          <path
-            fill="#ffd140"
-            d="M39.8 16.2C36.4 12.2 31.4 9.6 25.8 9.6c-2.3 0-4.4.4-6.4 1.2 4.6 1.6 8.4 4.6 10.9 8.5 3.4 1.2 6.3 3.4 8.4 6.3.8-3 1.1-6.2 1.1-9.4z"
-          />
-          <circle cx="26" cy="26" r="10" fill="#0060df" />
-          <circle cx="26" cy="26" r="6.5" fill="#00c8d7" />
-          <path
-            fill="#ff7139"
-            d="M14 34c3.2 5.2 9 8.6 15.4 8.6 5.2 0 9.8-2.2 13-5.7C36.8 41 28.6 43 21 40c-2.6-1-5-2.6-7-4.6z"
-          />
-        </svg>
+        <img
+          src={`${import.meta.env.BASE_URL}firefox.svg`}
+          width={s}
+          height={s}
+          alt=""
+          draggable={false}
+          className={className}
+        />
       );
     case "snake":
       return (
