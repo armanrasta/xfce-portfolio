@@ -1,0 +1,96 @@
+:root {
+  /* Debian XFCE / Greybird */
+  --debian-red: #a80030;
+  --debian-red-dark: #7a0022;
+  --xfce-bg: #5b87b5;
+  --xfce-bg-deep: #2c4a6e;
+  --xfce-panel: #cecece;
+  --xfce-panel-top: #e8e8e8;
+  --xfce-panel-bottom: #b8b8b8;
+  --xfce-panel-border: #8e8e8e;
+  --xfce-panel-hover: #d4d4d4;
+  --xfce-window: #f6f6f6;
+  --xfce-window-border: #6e6e6e;
+  --xfce-titlebar: linear-gradient(180deg, #f0f0f0 0%, #c8c8c8 100%);
+  --xfce-titlebar-active: linear-gradient(180deg, #7eb0d4 0%, #3d7ea6 55%, #2f6a8f 100%);
+  --xfce-titlebar-text: #222;
+  --xfce-titlebar-text-active: #fff;
+  --xfce-accent: #3d7ea6;
+  --xfce-accent-dark: #2a5f88;
+  --xfce-selection: #398ee7;
+  --xfce-text: #1e1e1e;
+  --xfce-muted: #555;
+  --xfce-menu: #f5f5f5;
+  --xfce-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  --xfce-font: "Cantarell", "Noto Sans", "DejaVu Sans", sans-serif;
+  --xfce-mono: "Ubuntu Mono", "DejaVu Sans Mono", monospace;
+  --panel-height: 28px;
+  --titlebar-height: 26px;
+  --desktop-pad-top: calc(var(--panel-height) + 12px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--xfce-font);
+  color: var(--xfce-text);
+  background: #000;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--xfce-selection);
+  color: #fff;
+}
+
+@keyframes window-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes boot-cursor {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
