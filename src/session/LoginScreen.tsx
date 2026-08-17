@@ -22,7 +22,7 @@ export function LoginScreen() {
   return (
     <div className="login">
       <div className="login-wallpaper" aria-hidden>
-        <img className="login-swirl" src="/favicon.svg" alt="" />
+        <img className="login-swirl" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" />
       </div>
       <form className="login-card" onSubmit={submit}>
         <div className="login-debian" aria-hidden>

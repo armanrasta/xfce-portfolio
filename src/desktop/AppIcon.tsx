@@ -140,7 +140,7 @@ export function AppIcon({ id, size = 32, className }: Props) {
 export function DebianLogo({ size = 20 }: { size?: number }) {
   return (
     <img
-      src="/favicon.svg"
+      src={`${import.meta.env.BASE_URL}favicon.svg`}
       width={size}
       height={size}
       alt=""

@@ -27,9 +27,11 @@ Edit [`src/content/portfolio.ts`](src/content/portfolio.ts).
 
 ## Deploy
 
-The site is published with GitHub Pages to **https://armanrostami.ir**.
+Live on GitHub Pages: **https://armanrasta.github.io/xfce-portfolio/**
 
-Point the domain at GitHub. At your registrar, set:
+No extra host. Push to `master` and the Deploy workflow publishes `dist`.
+
+To use **armanrostami.ir** later, point DNS at GitHub (below), add `public/CNAME` with that hostname, and set Vite `base` to `/`.
 
 **A records** for `@` / `armanrostami.ir`:
 
