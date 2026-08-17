@@ -1,0 +1,116 @@
+.snake-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #1a222c;
+  color: #e8eef4;
+  outline: none;
+}
+
+.snake-app:focus {
+  outline: none;
+}
+
+.snake-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #3a4550, #2a333c);
+  border-bottom: 1px solid #111;
+  font-size: 13px;
+}
+
+.snake-toolbar .xfce-btn {
+  margin-left: auto;
+  background: linear-gradient(180deg, #5a9bc8, #3c7fb1);
+  border-color: #2a5f88;
+  color: #fff;
+}
+
+.snake-board {
+  flex: 1;
+  position: relative;
+  display: grid;
+  gap: 1px;
+  padding: 8px;
+  background: #0d1218;
+  min-height: 0;
+  aspect-ratio: 20 / 16;
+  max-height: calc(100% - 60px);
+  margin: 0 auto;
+  width: min(100%, calc((100% - 16px) * 20 / 16));
+}
+
+.snake-cell {
+  background: #15202b;
+  border-radius: 2px;
+}
+
+.snake-head {
+  background: linear-gradient(145deg, #7dffa0, #2ecc71);
+  box-shadow: 0 0 6px rgba(46, 204, 113, 0.5);
+}
+
+.snake-body {
+  background: #3d9b5f;
+  border-radius: 2px;
+}
+
+.snake-food {
+  background: radial-gradient(circle at 35% 35%, #ff8a80, #c0392b 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(192, 57, 43, 0.55);
+  animation: food-pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes food-pulse {
+  from {
+    transform: scale(0.85);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.snake-overlay {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(10, 14, 20, 0.72);
+  border-radius: 4px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.snake-overlay-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.snake-overlay p {
+  margin: 0;
+  font-size: 13px;
+  color: #b8c4d0;
+}
+
+.snake-overlay-hint {
+  margin-top: 8px !important;
+  color: #7dffa0 !important;
+  font-weight: 600;
+}
+
+.snake-status {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #9aa8b5;
+  background: #121820;
+  border-top: 1px solid #000;
+}
