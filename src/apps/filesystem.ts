@@ -63,6 +63,17 @@ export const homeFs: FsNode = {
             openApp: "projects" as const,
           })),
         },
+        {
+          type: "file",
+          name: "TODO.txt",
+          content: [
+            "TODO",
+            "- [x] put the resume on a desktop",
+            "- [ ] stop rewriting this portfolio",
+            "- [ ] reply to that recruiter from 2024",
+            "- [ ] learn when to leave vim",
+          ].join("\n"),
+        },
       ],
     },
     {
@@ -74,7 +85,39 @@ export const homeFs: FsNode = {
           name: "readme.txt",
           content: "Open Firefox, Snake, and other desktop apps from here.",
         },
+        {
+          type: "file",
+          name: "offer_letter.pdf.bak",
+          content:
+            "%PDF-joke\nThis file is a backup of a conversation that has not happened yet.\ngit checkout this conversation\n",
+        },
       ],
+    },
+    {
+      type: "dir",
+      name: "Pictures",
+      children: [
+        {
+          type: "file",
+          name: "do_not_open.txt",
+          content:
+            "You opened it anyway.\n\nIt was a screenshot of htop at 3am.\nLoad average: fine. Operator: not fine.\n",
+        },
+      ],
+    },
+    {
+      type: "file",
+      name: ".bash_history",
+      content: [
+        "sudo apt install job",
+        "vim resume.txt",
+        "git status",
+        "git push --force origin master",
+        "# never again",
+        "fortune",
+        "xdg-open snake",
+        "ssh recruiter@linkedin",
+      ].join("\n"),
     },
   ],
 };
@@ -101,10 +144,10 @@ export function resolvePath(path: string): FsNode | null {
   return node;
 }
 
-export function listDir(path: string): string[] | null {
+export function listDir(path: string, all = false): string[] | null {
   const node = resolvePath(path);
   if (!node || node.type !== "dir") return null;
-  return node.children.map((c) =>
-    c.type === "dir" ? `${c.name}/` : c.name,
-  );
+  return node.children
+    .filter((c) => all || !c.name.startsWith("."))
+    .map((c) => (c.type === "dir" ? `${c.name}/` : c.name));
 }

@@ -7,6 +7,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import { portfolio } from "../content/portfolio";
+import { useSession, type AppId } from "../session/SessionContext";
 import { listDir, resolvePath } from "./filesystem";
 import { fetchGithubRepos } from "./github";
 import "./TerminalApp.css";
@@ -20,6 +21,52 @@ const BANNER = `
   / ___ \\|  _ <| |  | |/ ___ \\| |\\  |
  /_/   \\_\\_| \\_\\_|  |_/_/   \\_\\_| \\_|
           XFCE Portfolio Shell
+`.trim();
+
+const FORTUNES = [
+  "75% faster incident response. 100% slower at leaving vim.",
+  "I don't always write C++, but when I do it's for OpenCV.",
+  "There is no production. Only staging that got promoted.",
+  "Distributed systems: the art of failing in several places at once.",
+  "sudo apt install job  —  E: Unable to locate package.",
+  "Load average is fine. The operator is not.",
+  "This portfolio is a website pretending to be Debian. The resume is real.",
+  "NeoSafe watches cameras. XEyes watches you. Both are on the menu.",
+];
+
+const OPEN_ALIASES: Record<string, AppId> = {
+  about: "about",
+  mousepad: "about",
+  resume: "about",
+  projects: "projects",
+  work: "projects",
+  contact: "contact",
+  terminal: "terminal",
+  files: "files",
+  thunar: "files",
+  home: "files",
+  snake: "snake",
+  minesweeper: "minesweeper",
+  mines: "minesweeper",
+  mine: "minesweeper",
+  pong: "pong",
+  firefox: "firefox",
+  settings: "settings",
+  showcase: "showcase",
+  neosafe: "showcase",
+  xeyes: "xeyes",
+  eyes: "xeyes",
+};
+
+const SL = `
+      ====        ________                ___________
+  _D _|  |_______/        \\__I_I_____===__|_________|
+   |(_)---  |   H\\________/ |   |        =|___ ___|
+   /     |  |   H  |  |     |   |         ||_| |_||
+  |      |  |   H  |__--------------------| [___] |
+  | ________|___H__/__|_____/[][]~\\_______|       |
+  |/ |   |-----------I_____I [][] []  D   |=======|__
+__/ =| o |=-O=====O=====O=====O_/      \\_/
 `.trim();
 
 function neofetch(): string {
@@ -38,11 +85,68 @@ function neofetch(): string {
   ].join("\n");
 }
 
+function cowsay(text: string): string {
+  const max = 42;
+  const words = text.trim().split(/\s+/);
+  const lines: string[] = [];
+  let cur = "";
+  for (const w of words) {
+    const next = cur ? `${cur} ${w}` : w;
+    if (next.length > max && cur) {
+      lines.push(cur);
+      cur = w;
+    } else {
+      cur = next;
+    }
+  }
+  if (cur) lines.push(cur);
+  const width = Math.max(...lines.map((l) => l.length), 1);
+  const top = ` ${"_".repeat(width + 2)}`;
+  const bot = ` ${"-".repeat(width + 2)}`;
+  const body =
+    lines.length === 1
+      ? `< ${lines[0].padEnd(width)} >`
+      : lines
+          .map((l, i) => {
+            const left = i === 0 ? "/" : i === lines.length - 1 ? "\\" : "|";
+            const right = i === 0 ? "\\" : i === lines.length - 1 ? "/" : "|";
+            return `${left} ${l.padEnd(width)} ${right}`;
+          })
+          .join("\n");
+  return [
+    top,
+    body,
+    bot,
+    "        \\   ^__^",
+    "         \\  (oo)\\_______",
+    "            (__)\\       )\\/\\",
+    "                ||----w |",
+    "                ||     ||",
+  ].join("\n");
+}
+
+function htop(): string {
+  const now = new Date().toTimeString().slice(0, 8);
+  return [
+    `  ${portfolio.hostname} - ${now} up 1:33,  1 user`,
+    "  Tasks: 7 total; Load average: 0.12 0.08 0.04",
+    "    PID USER       CPU%  MEM%  COMMAND",
+    "    1 root        0.0   0.1  systemd (browser)",
+    "  142 armanrasta  4.2   1.8  xfce4-panel",
+    "  201 armanrasta 12.0   6.4  neosafe --ppe",
+    "  278 armanrasta  8.1   3.3  opencv ColorHashTSDF",
+    "  330 armanrasta  1.1   0.9  firefox github.com/armanrasta",
+    "  401 armanrasta  0.4   0.2  xeyes --watch-recruiter",
+    "  512 armanrasta  0.0   0.1  sleep infinity",
+  ].join("\n");
+}
+
 export function TerminalApp() {
+  const { openApp } = useSession();
   const [cwd, setCwd] = useState(`/home/${portfolio.username}`);
   const [lines, setLines] = useState<Line[]>([
     { kind: "out", text: BANNER },
-    { kind: "out", text: 'Type "help" for commands. Welcome aboard.' },
+    { kind: "out", text: 'Type "help" or "fortune". Welcome aboard.' },
   ]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -77,9 +181,11 @@ export function TerminalApp() {
             kind: "out",
             text: [
               "Available commands:",
-              "  help, clear, whoami, neofetch, about, experience, skills",
-              "  projects, contact, github",
-              "  ls [path], cd [path], cat <file>, pwd, date, echo <text>",
+              "  help, clear, whoami, neofetch, fortune, cowsay, sl",
+              "  about, experience, skills, projects, contact, github",
+              "  ls [-a] [path], cd [path], cat <file>, pwd, date, echo",
+              "  htop, ps, open <app>, xdg-open <app>",
+              "  sudo, apt, vim, rm, ssh, ping",
             ].join("\n"),
           });
           break;
@@ -102,6 +208,119 @@ export function TerminalApp() {
         case "fetch":
           next.push({ kind: "out", text: neofetch() });
           break;
+        case "fortune":
+          next.push({
+            kind: "out",
+            text: FORTUNES[Math.floor(Math.random() * FORTUNES.length)],
+          });
+          break;
+        case "cowsay":
+          next.push({
+            kind: "out",
+            text: cowsay(
+              arg ||
+                `${portfolio.showcase.metric}. Hire ${portfolio.name.split(" ")[0]}.`,
+            ),
+          });
+          break;
+        case "sl":
+          next.push({ kind: "out", text: SL });
+          break;
+        case "htop":
+        case "ps":
+          next.push({ kind: "out", text: htop() });
+          break;
+        case "sudo":
+          next.push({
+            kind: "err",
+            text: `${portfolio.username} is not in the sudoers file. This incident will be reported to /dev/null.`,
+          });
+          break;
+        case "apt":
+        case "apt-get":
+          next.push({
+            kind: "err",
+            text:
+              args[0] === "install" && args[1] === "job"
+                ? "E: Unable to locate package job. Try: open contact"
+                : "E: Could not open lock file /var/lib/dpkg/lock-frontend — this is a browser, not root.",
+          });
+          break;
+        case "vim":
+        case "vi":
+        case "nvim":
+          next.push({
+            kind: "out",
+            text: [
+              "~",
+              "~  VIM - Vi IMproved  (web edition)",
+              "~  you are already looking at windows",
+              "~  Mousepad is in Applications → About",
+              "~  :q will not save you",
+            ].join("\n"),
+          });
+          break;
+        case ":q":
+        case ":q!":
+        case ":wq":
+          next.push({
+            kind: "err",
+            text: "E37: No write since last change. You remain in the portfolio.",
+          });
+          break;
+        case "rm": {
+          const targets = args.filter((a) => !a.startsWith("-"));
+          const flags = args.filter((a) => a.startsWith("-")).join("");
+          const rf = flags.includes("r") && flags.includes("f");
+          const nuke = targets.some((t) => t === "/" || t === "/*" || t === "~" || t === "~/*");
+          if (rf && nuke) {
+            next.push({
+              kind: "err",
+              text: "rm: refusing to remove the portfolio. Recruiters are watching.",
+            });
+          } else {
+            next.push({
+              kind: "err",
+              text: `rm: cannot remove '${targets[0] ?? "."}': Read-only file system (on purpose)`,
+            });
+          }
+          break;
+        }
+        case "ssh":
+          next.push({
+            kind: "err",
+            text: `ssh: connect to host ${args[0] || "debian"} port 22: Connection refused (this is a website)`,
+          });
+          break;
+        case "ping": {
+          const host = args[0] || "debian.local";
+          next.push({
+            kind: "out",
+            text: [
+              `PING ${host} (127.0.0.1): 56 data bytes`,
+              `64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.12 ms`,
+              `64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.08 ms`,
+              `--- ${host} ping statistics ---`,
+              "2 packets transmitted, 2 imaginary packets received",
+            ].join("\n"),
+          });
+          break;
+        }
+        case "open":
+        case "xdg-open": {
+          const key = (args[0] || "").toLowerCase().replace(/\.(desktop|txt)$/, "");
+          const id = OPEN_ALIASES[key];
+          if (!id) {
+            next.push({
+              kind: "err",
+              text: `xdg-open: ${args[0] || "(none)"}: not a known app. Try: ${Object.keys(OPEN_ALIASES).slice(0, 8).join(", ")}`,
+            });
+          } else {
+            openApp(id);
+            next.push({ kind: "out", text: `Opening ${id}…` });
+          }
+          break;
+        }
         case "about":
           next.push({ kind: "out", text: portfolio.about });
           break;
@@ -161,14 +380,23 @@ export function TerminalApp() {
             });
           return;
         case "ls": {
-          const path = args[0]
-            ? args[0].startsWith("/") || args[0].startsWith("~")
-              ? args[0]
-              : `${cwd}/${args[0]}`
+          const flags = args.filter((a) => a.startsWith("-"));
+          const pathArg = args.find((a) => !a.startsWith("-"));
+          const all = flags.some((f) => f.includes("a"));
+          const path = pathArg
+            ? pathArg.startsWith("/") || pathArg.startsWith("~")
+              ? pathArg
+              : `${cwd}/${pathArg}`
             : cwd;
-          const listing = listDir(path);
-          if (!listing) next.push({ kind: "err", text: `ls: cannot access '${path}': No such file or directory` });
-          else next.push({ kind: "out", text: listing.join("  ") || "(empty)" });
+          const listing = listDir(path, all);
+          if (!listing) {
+            next.push({
+              kind: "err",
+              text: `ls: cannot access '${path}': No such file or directory`,
+            });
+          } else {
+            next.push({ kind: "out", text: listing.join("  ") || "(empty)" });
+          }
           break;
         }
         case "cd": {
@@ -207,13 +435,13 @@ export function TerminalApp() {
         default:
           next.push({
             kind: "err",
-            text: `portfolio-sh: ${name}: command not found`,
+            text: `portfolio-sh: ${name}: command not found\nDid you mean help?`,
           });
       }
 
       setLines((L) => [...L, ...next]);
     },
-    [cwd, prompt],
+    [cwd, openApp, prompt],
   );
 
   const onSubmit = (e: FormEvent) => {

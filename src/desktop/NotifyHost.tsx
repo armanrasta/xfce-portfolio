@@ -1,44 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useSession } from "../session/SessionContext";
 import "./NotifyHost.css";
-
-type Toast = { id: number; title: string; body: string };
 
 const SEEN_KEY = "xfce-welcome-toasts";
 
 export function NotifyHost() {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const { state, pushToast, dismissToast } = useSession();
+  const armed = useRef(new Set<number>());
 
   useEffect(() => {
     if (sessionStorage.getItem(SEEN_KEY)) return;
     sessionStorage.setItem(SEEN_KEY, "1");
+    pushToast("Session started", "Welcome to Debian XFCE (web edition).");
+    const t = window.setTimeout(() => {
+      pushToast("xfce4-notifyd", "Tip: type fortune in Terminal.");
+    }, 2800);
+    return () => clearTimeout(t);
+  }, [pushToast]);
 
-    const t2 = window.setTimeout(() => {
-      setToasts([
-        {
-          id: 2,
-          title: "GitHub",
-          body: "Pinned in Firefox — github.com/armanrasta",
-        },
-      ]);
-    }, 9000);
-    const t3 = window.setTimeout(() => setToasts([]), 15000);
-    return () => {
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
-  }, []);
+  useEffect(() => {
+    for (const toast of state.toasts) {
+      if (armed.current.has(toast.id)) continue;
+      armed.current.add(toast.id);
+      window.setTimeout(() => dismissToast(toast.id), 8000);
+    }
+  }, [state.toasts, dismissToast]);
 
-  if (!toasts.length) return null;
+  if (!state.toasts.length) return null;
 
   return (
     <div className="notify-host" aria-live="polite">
-      {toasts.map((t) => (
+      {state.toasts.map((t) => (
         <article key={t.id} className="notify-toast">
           <button
             type="button"
             className="notify-close"
             aria-label="Dismiss"
-            onClick={() => setToasts((cur) => cur.filter((x) => x.id !== t.id))}
+            onClick={() => dismissToast(t.id)}
           >
             ×
           </button>

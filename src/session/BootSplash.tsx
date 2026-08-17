@@ -31,7 +31,7 @@ export function BootSplash() {
         <p className="boot-who">{portfolio.name}</p>
         <span className="boot-rule" aria-hidden />
         <p className="boot-role">{portfolio.title.split("|")[0].trim()}</p>
-        <p className="boot-sub">Click to enter the desktop</p>
+        <p className="boot-sub">Click, or wait — systemd will anyway</p>
       </div>
     </div>
   );

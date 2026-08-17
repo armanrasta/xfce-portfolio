@@ -50,6 +50,16 @@
   animation: rise 0.7s ease 0.16s both;
 }
 
+.id-hero-aside {
+  margin: 10px 0 0;
+  max-width: 36ch;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: rgba(244, 214, 220, 0.8);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  animation: rise 0.7s ease 0.2s both;
+}
+
 .id-hero-cta {
   display: flex;
   flex-wrap: wrap;
@@ -184,6 +194,7 @@
   .id-hero-name,
   .id-hero-title,
   .id-hero-blurb,
+  .id-hero-aside,
   .id-hero-cta,
   .id-hero-meta {
     animation: none;

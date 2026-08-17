@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useSession } from "../session/SessionContext";
 import "../apps/apps.css";
 import "./SnakeGame.css";
 
@@ -6,6 +7,7 @@ const COLS = 20;
 const ROWS = 16;
 const TICK_MS = 110;
 const HS_KEY = "xfce-portfolio-snake-hs";
+const SNAKE_TOAST_KEY = "xfce-snake-toast";
 
 type Pt = { x: number; y: number };
 type Dir = "up" | "down" | "left" | "right";
@@ -38,6 +40,7 @@ function initialSnake(): Pt[] {
 }
 
 export function SnakeGame() {
+  const { pushToast } = useSession();
   const [snake, setSnake] = useState<Pt[]>(initialSnake);
   const [food, setFood] = useState<Pt>(() => randomFood(initialSnake()));
   const [dir, setDir] = useState<Dir>("right");
@@ -79,6 +82,12 @@ export function SnakeGame() {
   useEffect(() => {
     wrapRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem(SNAKE_TOAST_KEY)) return;
+    sessionStorage.setItem(SNAKE_TOAST_KEY, "1");
+    pushToast("xfce4-notifyd", "Productivity down 12%.");
+  }, [pushToast]);
 
   useEffect(() => {
     if (!running || gameOver) return;

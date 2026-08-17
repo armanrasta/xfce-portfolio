@@ -17,9 +17,14 @@ export type AppId =
   | "terminal"
   | "files"
   | "snake"
+  | "minesweeper"
+  | "pong"
   | "firefox"
   | "settings"
-  | "showcase";
+  | "showcase"
+  | "xeyes";
+
+export type Toast = { id: number; title: string; body: string };
 
 export type WallpaperId = "swirl" | "dusk" | "slate";
 export type ThemeId = "light" | "dark";
@@ -47,6 +52,8 @@ type SessionState = {
   theme: ThemeId;
   widgetVisible: boolean;
   autostart: boolean;
+  toasts: Toast[];
+  nextToastId: number;
 };
 
 type Action =
@@ -63,6 +70,8 @@ type Action =
   | { type: "SET_THEME"; theme: ThemeId }
   | { type: "SET_WIDGET"; visible: boolean }
   | { type: "SET_AUTOSTART"; on: boolean }
+  | { type: "PUSH_TOAST"; title: string; body: string }
+  | { type: "DISMISS_TOAST"; id: number }
   | { type: "LOGOUT" }
   | { type: "REBOOT" };
 
@@ -76,9 +85,12 @@ const APP_META: Record<
   terminal: { title: "Terminal — xfce4-terminal", width: 640, height: 400, offset: 3 },
   files: { title: "Home — File Manager", width: 620, height: 440, offset: 4 },
   snake: { title: "Snake", width: 480, height: 460, offset: 5 },
+  minesweeper: { title: "Minesweeper", width: 420, height: 480, offset: 6 },
+  pong: { title: "Pong", width: 520, height: 420, offset: 7 },
   firefox: { title: "Firefox", width: 780, height: 560, offset: 1 },
   settings: { title: "Settings — Appearance", width: 420, height: 360, offset: 2 },
   showcase: { title: "NeoSafe / OpenCV", width: 640, height: 480, offset: 1 },
+  xeyes: { title: "XEyes", width: 280, height: 180, offset: 8 },
 };
 
 const PREFS_KEY = "xfce-prefs";
@@ -154,6 +166,8 @@ const initialState: SessionState = {
   nextZ: 1,
   menuOpen: false,
   focusedId: null,
+  toasts: [],
+  nextToastId: 1,
   ...loadPrefs(),
 };
 
@@ -280,6 +294,23 @@ function reducer(state: SessionState, action: Action): SessionState {
       return { ...state, widgetVisible: action.visible };
     case "SET_AUTOSTART":
       return { ...state, autostart: action.on };
+    case "PUSH_TOAST": {
+      const toast: Toast = {
+        id: state.nextToastId,
+        title: action.title,
+        body: action.body,
+      };
+      return {
+        ...state,
+        nextToastId: state.nextToastId + 1,
+        toasts: [...state.toasts, toast].slice(-4),
+      };
+    }
+    case "DISMISS_TOAST":
+      return {
+        ...state,
+        toasts: state.toasts.filter((t) => t.id !== action.id),
+      };
     case "LOGOUT":
       return {
         ...initialState,
@@ -288,6 +319,7 @@ function reducer(state: SessionState, action: Action): SessionState {
         theme: state.theme,
         widgetVisible: state.widgetVisible,
         autostart: state.autostart,
+        toasts: [],
       };
     case "REBOOT":
       return {
@@ -297,6 +329,7 @@ function reducer(state: SessionState, action: Action): SessionState {
         theme: state.theme,
         widgetVisible: state.widgetVisible,
         autostart: state.autostart,
+        toasts: [],
       };
     default:
       return state;
@@ -318,6 +351,8 @@ type SessionApi = {
   setTheme: (theme: ThemeId) => void;
   setWidgetVisible: (visible: boolean) => void;
   setAutostart: (on: boolean) => void;
+  pushToast: (title: string, body: string) => void;
+  dismissToast: (id: number) => void;
   logout: () => void;
   reboot: () => void;
   appMeta: typeof APP_META;
@@ -391,6 +426,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     (on: boolean) => dispatch({ type: "SET_AUTOSTART", on }),
     [],
   );
+  const pushToast = useCallback((title: string, body: string) => {
+    dispatch({ type: "PUSH_TOAST", title, body });
+  }, []);
+  const dismissToast = useCallback(
+    (id: number) => dispatch({ type: "DISMISS_TOAST", id }),
+    [],
+  );
   const logout = useCallback(() => dispatch({ type: "LOGOUT" }), []);
   const reboot = useCallback(() => dispatch({ type: "REBOOT" }), []);
 
@@ -410,6 +452,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setTheme,
       setWidgetVisible,
       setAutostart,
+      pushToast,
+      dismissToast,
       logout,
       reboot,
       appMeta: APP_META,
@@ -429,6 +473,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setTheme,
       setWidgetVisible,
       setAutostart,
+      pushToast,
+      dismissToast,
       logout,
       reboot,
     ],

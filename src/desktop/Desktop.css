@@ -150,8 +150,10 @@
   color: #fff;
   background: var(--debian-red);
   padding: 1px 5px;
+  border: none;
   border-radius: 2px;
   line-height: 1.4;
+  font-family: inherit;
 }
 
 .tray-icon {
@@ -159,6 +161,9 @@
   place-items: center;
   opacity: 0.75;
   color: #333;
+  border: none;
+  background: transparent;
+  padding: 0;
 }
 
 .panel-clock {

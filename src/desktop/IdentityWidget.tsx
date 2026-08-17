@@ -17,6 +17,7 @@ export function IdentityHero() {
       </p>
       <h1 className="id-hero-title">{headline}</h1>
       <p className="id-hero-blurb">{portfolio.blurb}</p>
+      <p className="id-hero-aside">Runs in a browser. Pretends it&apos;s Debian.</p>
       <div className="id-hero-cta">
         <button type="button" className="id-hero-btn" onClick={() => openApp("about")}>
           About

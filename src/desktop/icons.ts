@@ -50,6 +50,18 @@ export const DESKTOP_ICONS: IconDef[] = [
     category: "Games",
     description: "Classic snake — arrow keys / WASD",
   },
+  {
+    id: "minesweeper",
+    label: "Mines",
+    category: "Games",
+    description: "Minesweeper — left reveal, right flag",
+  },
+  {
+    id: "pong",
+    label: "Pong",
+    category: "Games",
+    description: "Pong — ↑/↓ or W/S",
+  },
 ];
 
 export const MENU_APPS: IconDef[] = [
@@ -59,6 +71,12 @@ export const MENU_APPS: IconDef[] = [
     label: "Showcase",
     category: "Development",
     description: "NeoSafe + OpenCV",
+  },
+  {
+    id: "xeyes",
+    label: "XEyes",
+    category: "Accessories",
+    description: "They follow the pointer",
   },
   {
     id: "settings",

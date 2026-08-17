@@ -82,6 +82,30 @@ export function AppIcon({ id, size = 32, className }: Props) {
           <circle cx="12" cy="24" r="1.2" fill="#fff" />
         </svg>
       );
+    case "minesweeper":
+      return (
+        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
+          <rect x="6" y="6" width="36" height="36" rx="2" fill="#c0c0c0" stroke="#555" strokeWidth="1.5" />
+          <rect x="10" y="10" width="11" height="11" fill="#c8c8c8" stroke="#fff" strokeWidth="1.2" />
+          <rect x="23" y="10" width="11" height="11" fill="#bdbdbd" stroke="#7b7b7b" />
+          <rect x="10" y="23" width="11" height="11" fill="#e74c3c" stroke="#7b7b7b" />
+          <circle cx="15.5" cy="28.5" r="2.2" fill="#111" />
+          <rect x="23" y="23" width="11" height="11" fill="#c8c8c8" stroke="#fff" strokeWidth="1.2" />
+          <text x="26" y="32" fontSize="9" fontWeight="700" fill="#00f">
+            1
+          </text>
+        </svg>
+      );
+    case "pong":
+      return (
+        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
+          <rect x="4" y="8" width="40" height="32" rx="2" fill="#0d1218" stroke="#2a333c" strokeWidth="1.5" />
+          <rect x="8" y="16" width="3" height="14" fill="#7dffa0" />
+          <rect x="37" y="18" width="3" height="14" fill="#ff8a80" />
+          <circle cx="24" cy="24" r="3" fill="#fff" />
+          <path d="M24 10v28" stroke="rgba(255,255,255,0.2)" strokeDasharray="2 3" />
+        </svg>
+      );
     case "settings":
       return (
         <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
@@ -98,6 +122,16 @@ export function AppIcon({ id, size = 32, className }: Props) {
           <rect x="6" y="10" width="36" height="28" rx="2" fill="#1a2838" stroke="#3c7fb1" strokeWidth="1.5" />
           <path d="M10 32l8-10 6 7 6-8 8 11" fill="none" stroke="#7dffa0" strokeWidth="2" />
           <circle cx="18" cy="22" r="2" fill="#ff7139" />
+        </svg>
+      );
+    case "xeyes":
+      return (
+        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
+          <rect x="4" y="10" width="40" height="28" rx="2" fill="#c8c8c8" stroke="#555" strokeWidth="1.5" />
+          <ellipse cx="17" cy="24" rx="8" ry="10" fill="#f4f4f4" stroke="#222" strokeWidth="1.4" />
+          <ellipse cx="31" cy="24" rx="8" ry="10" fill="#f4f4f4" stroke="#222" strokeWidth="1.4" />
+          <circle cx="19" cy="26" r="3" fill="#111" />
+          <circle cx="33" cy="26" r="3" fill="#111" />
         </svg>
       );
   }

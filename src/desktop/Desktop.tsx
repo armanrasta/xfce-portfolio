@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { DESKTOP_ICONS, MENU_APPS } from "./icons";
 import { AppIcon, DebianLogo } from "./AppIcon";
 import { IdentityHero, IdentityWidget } from "./IdentityWidget";
@@ -11,9 +11,12 @@ import { ContactApp } from "../apps/ContactApp";
 import { TerminalApp } from "../apps/TerminalApp";
 import { FileManagerApp } from "../apps/FileManagerApp";
 import { SnakeGame } from "../apps/SnakeGame";
+import { MinesweeperGame } from "../apps/MinesweeperGame";
+import { PongGame } from "../apps/PongGame";
 import { FirefoxApp } from "../apps/FirefoxApp";
 import { SettingsApp } from "../apps/SettingsApp";
 import { ShowcaseApp } from "../apps/ShowcaseApp";
+import { XEyesApp } from "../apps/XEyesApp";
 import { portfolio } from "../content/portfolio";
 import "./Desktop.css";
 
@@ -31,12 +34,18 @@ function AppContent({ id }: { id: AppId }) {
       return <FileManagerApp />;
     case "snake":
       return <SnakeGame />;
+    case "minesweeper":
+      return <MinesweeperGame />;
+    case "pong":
+      return <PongGame />;
     case "firefox":
       return <FirefoxApp />;
     case "settings":
       return <SettingsApp />;
     case "showcase":
       return <ShowcaseApp />;
+    case "xeyes":
+      return <XEyesApp />;
   }
 }
 
@@ -65,6 +74,19 @@ const WALLPAPERS: { id: WallpaperId; label: string }[] = [
   { id: "slate", label: "Slate" },
 ];
 
+const KONAMI = [
+  "ArrowUp",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowDown",
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowRight",
+  "b",
+  "a",
+];
+
 export function Desktop() {
   const {
     state,
@@ -75,14 +97,37 @@ export function Desktop() {
     setWidgetVisible,
     logout,
     reboot,
+    pushToast,
   } = useSession();
   const [ctx, setCtx] = useState<{ x: number; y: number } | null>(null);
+  const konami = useRef(0);
 
   useEffect(() => {
     if (!state.autostart) return;
     openApp("about");
     openApp("firefox");
   }, [state.autostart, openApp]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      const expect = KONAMI[konami.current];
+      if (key === expect) {
+        konami.current += 1;
+        if (konami.current === KONAMI.length) {
+          konami.current = 0;
+          openApp("snake");
+          pushToast("xfce4-notifyd", "Productivity daemon stopped.");
+        }
+      } else {
+        konami.current = key === KONAMI[0] ? 1 : 0;
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openApp, pushToast]);
 
   useEffect(() => {
     const onDoc = (e: globalThis.MouseEvent) => {
@@ -170,17 +215,27 @@ export function Desktop() {
           >
             {portfolio.name}
           </button>
-          <span className="tray-pill" title="Debian XFCE">
+          <button
+            type="button"
+            className="tray-pill"
+            title="Debian XFCE"
+            onClick={() => pushToast("xfce4-notifyd", "Still Debian.")}
+          >
             deb
-          </span>
-          <span className="tray-icon" title="Network" aria-hidden>
+          </button>
+          <button
+            type="button"
+            className="tray-icon"
+            title="Network"
+            onClick={() => pushToast("Network Manager", "Connected to coffee.")}
+          >
             <svg width="14" height="14" viewBox="0 0 16 16">
               <path
                 fill="currentColor"
                 d="M1 10h2v4H1zm4-3h2v7H5zm4-3h2v10H9zm4-3h2v13h-2z"
               />
             </svg>
-          </span>
+          </button>
           <Clock />
         </div>
       </header>
@@ -283,6 +338,24 @@ export function Desktop() {
           </button>
           <button type="button" onClick={() => { openApp("settings"); setCtx(null); }}>
             Settings
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              pushToast("xfce4-notifyd", "Icons were already arranged. XFCE knows.");
+              setCtx(null);
+            }}
+          >
+            Arrange icons (already arranged)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              pushToast("xfce4-notifyd", "Use the Applications menu.");
+              setCtx(null);
+            }}
+          >
+            Create launcher…
           </button>
           <div className="app-menu-sep" />
           {WALLPAPERS.map((w) => (

@@ -1,0 +1,85 @@
+.pong-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #1a222c;
+  color: #e8eef4;
+  outline: none;
+}
+
+.pong-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #3a4550, #2a333c);
+  border-bottom: 1px solid #111;
+  font-size: 13px;
+}
+
+.pong-toolbar .xfce-btn {
+  margin-left: auto;
+  background: linear-gradient(180deg, #5a9bc8, #3c7fb1);
+  border-color: #2a5f88;
+  color: #fff;
+}
+
+.pong-stage {
+  flex: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 8px;
+  background: #0d1218;
+}
+
+.pong-canvas {
+  width: min(100%, 480px);
+  height: auto;
+  max-height: 100%;
+  border: 1px solid #2a333c;
+  image-rendering: pixelated;
+}
+
+.pong-overlay {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(10, 14, 20, 0.72);
+  border-radius: 4px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.pong-overlay-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pong-overlay p {
+  margin: 0;
+  font-size: 13px;
+  color: #b8c4d0;
+}
+
+.pong-overlay-hint {
+  margin-top: 8px !important;
+  color: #7dffa0 !important;
+  font-weight: 600;
+}
+
+.pong-status {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #9aa8b5;
+  background: #121820;
+  border-top: 1px solid #000;
+}
