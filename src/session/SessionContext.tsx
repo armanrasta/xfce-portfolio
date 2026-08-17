@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
   type ReactNode,
@@ -16,7 +17,12 @@ export type AppId =
   | "terminal"
   | "files"
   | "snake"
-  | "firefox";
+  | "firefox"
+  | "settings"
+  | "showcase";
+
+export type WallpaperId = "swirl" | "dusk" | "slate";
+export type ThemeId = "light" | "dark";
 
 export type WindowState = {
   id: AppId;
@@ -37,6 +43,10 @@ type SessionState = {
   nextZ: number;
   menuOpen: boolean;
   focusedId: AppId | null;
+  wallpaper: WallpaperId;
+  theme: ThemeId;
+  widgetVisible: boolean;
+  autostart: boolean;
 };
 
 type Action =
@@ -49,6 +59,10 @@ type Action =
   | { type: "MOVE_WINDOW"; id: AppId; x: number; y: number }
   | { type: "RESIZE_WINDOW"; id: AppId; width: number; height: number }
   | { type: "SET_MENU"; open: boolean }
+  | { type: "SET_WALLPAPER"; wallpaper: WallpaperId }
+  | { type: "SET_THEME"; theme: ThemeId }
+  | { type: "SET_WIDGET"; visible: boolean }
+  | { type: "SET_AUTOSTART"; on: boolean }
   | { type: "LOGOUT" }
   | { type: "REBOOT" };
 
@@ -63,7 +77,58 @@ const APP_META: Record<
   files: { title: "Home — File Manager", width: 620, height: 440, offset: 4 },
   snake: { title: "Snake", width: 480, height: 460, offset: 5 },
   firefox: { title: "Firefox", width: 780, height: 560, offset: 1 },
+  settings: { title: "Settings — Appearance", width: 420, height: 360, offset: 2 },
+  showcase: { title: "NeoSafe / OpenCV", width: 640, height: 480, offset: 1 },
 };
+
+const PREFS_KEY = "xfce-prefs";
+
+function loadPrefs(): Pick<
+  SessionState,
+  "wallpaper" | "theme" | "widgetVisible" | "autostart"
+> {
+  try {
+    const raw = sessionStorage.getItem(PREFS_KEY);
+    if (!raw) {
+      return {
+        wallpaper: "swirl",
+        theme: "light",
+        widgetVisible: false,
+        autostart: false,
+      };
+    }
+    const p = JSON.parse(raw) as Partial<SessionState>;
+    return {
+      wallpaper: p.wallpaper === "dusk" || p.wallpaper === "slate" ? p.wallpaper : "swirl",
+      theme: p.theme === "dark" ? "dark" : "light",
+      widgetVisible: p.widgetVisible === true,
+      autostart: Boolean(p.autostart),
+    };
+  } catch {
+    return {
+      wallpaper: "swirl",
+      theme: "light",
+      widgetVisible: false,
+      autostart: false,
+    };
+  }
+}
+
+function persistPrefs(prefs: Pick<SessionState, "wallpaper" | "theme" | "widgetVisible" | "autostart">) {
+  try {
+    sessionStorage.setItem(
+      PREFS_KEY,
+      JSON.stringify({
+        wallpaper: prefs.wallpaper,
+        theme: prefs.theme,
+        widgetVisible: prefs.widgetVisible,
+        autostart: prefs.autostart,
+      }),
+    );
+  } catch {
+    /* ignore */
+  }
+}
 
 const PANEL = 28;
 
@@ -89,6 +154,7 @@ const initialState: SessionState = {
   nextZ: 1,
   menuOpen: false,
   focusedId: null,
+  ...loadPrefs(),
 };
 
 function reducer(state: SessionState, action: Action): SessionState {
@@ -206,13 +272,32 @@ function reducer(state: SessionState, action: Action): SessionState {
             : w,
         ),
       };
+    case "SET_WALLPAPER":
+      return { ...state, wallpaper: action.wallpaper };
+    case "SET_THEME":
+      return { ...state, theme: action.theme };
+    case "SET_WIDGET":
+      return { ...state, widgetVisible: action.visible };
+    case "SET_AUTOSTART":
+      return { ...state, autostart: action.on };
     case "LOGOUT":
       return {
         ...initialState,
         phase: "login",
+        wallpaper: state.wallpaper,
+        theme: state.theme,
+        widgetVisible: state.widgetVisible,
+        autostart: state.autostart,
       };
     case "REBOOT":
-      return { ...initialState, phase: "boot" };
+      return {
+        ...initialState,
+        phase: "boot",
+        wallpaper: state.wallpaper,
+        theme: state.theme,
+        widgetVisible: state.widgetVisible,
+        autostart: state.autostart,
+      };
     default:
       return state;
   }
@@ -229,6 +314,10 @@ type SessionApi = {
   moveWindow: (id: AppId, x: number, y: number) => void;
   resizeWindow: (id: AppId, width: number, height: number) => void;
   setMenuOpen: (open: boolean) => void;
+  setWallpaper: (wallpaper: WallpaperId) => void;
+  setTheme: (theme: ThemeId) => void;
+  setWidgetVisible: (visible: boolean) => void;
+  setAutostart: (on: boolean) => void;
   logout: () => void;
   reboot: () => void;
   appMeta: typeof APP_META;
@@ -238,6 +327,15 @@ const SessionContext = createContext<SessionApi | null>(null);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    persistPrefs({
+      wallpaper: state.wallpaper,
+      theme: state.theme,
+      widgetVisible: state.widgetVisible,
+      autostart: state.autostart,
+    });
+  }, [state.wallpaper, state.theme, state.widgetVisible, state.autostart]);
 
   const setPhase = useCallback(
     (phase: SessionPhase) => dispatch({ type: "SET_PHASE", phase }),
@@ -277,6 +375,22 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     (open: boolean) => dispatch({ type: "SET_MENU", open }),
     [],
   );
+  const setWallpaper = useCallback(
+    (wallpaper: WallpaperId) => dispatch({ type: "SET_WALLPAPER", wallpaper }),
+    [],
+  );
+  const setTheme = useCallback(
+    (theme: ThemeId) => dispatch({ type: "SET_THEME", theme }),
+    [],
+  );
+  const setWidgetVisible = useCallback(
+    (visible: boolean) => dispatch({ type: "SET_WIDGET", visible }),
+    [],
+  );
+  const setAutostart = useCallback(
+    (on: boolean) => dispatch({ type: "SET_AUTOSTART", on }),
+    [],
+  );
   const logout = useCallback(() => dispatch({ type: "LOGOUT" }), []);
   const reboot = useCallback(() => dispatch({ type: "REBOOT" }), []);
 
@@ -292,6 +406,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       moveWindow,
       resizeWindow,
       setMenuOpen,
+      setWallpaper,
+      setTheme,
+      setWidgetVisible,
+      setAutostart,
       logout,
       reboot,
       appMeta: APP_META,
@@ -307,6 +425,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       moveWindow,
       resizeWindow,
       setMenuOpen,
+      setWallpaper,
+      setTheme,
+      setWidgetVisible,
+      setAutostart,
       logout,
       reboot,
     ],

@@ -1,29 +1,10 @@
 .boot {
   position: fixed;
   inset: 0;
-  background: #000;
-  color: #b8b8b8;
-  font-family: var(--xfce-mono);
-  font-size: 13px;
-  line-height: 1.45;
-  padding: 24px 28px;
+  background: #0c1622;
   cursor: pointer;
   overflow: hidden;
   z-index: 1000;
-}
-
-.boot-lines {
-  max-width: 920px;
-}
-
-.boot-line {
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.boot-cursor {
-  animation: boot-cursor 1s step-end infinite;
-  color: #a80030;
 }
 
 .boot-logo {
@@ -33,23 +14,51 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  background: radial-gradient(ellipse at center, #1a0a10 0%, #000 70%);
-  animation: fade-in 0.35s ease;
+  text-align: center;
+  padding: 24px;
 }
 
-.boot-brand {
+.boot-logo-now {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 40%, #24364c 0%, #0c1622 70%);
+}
+
+.boot-who {
+  margin: 0;
+  font-family: "Syne", var(--xfce-font);
+  font-size: clamp(36px, 6.5vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #fff;
+  animation: rise 0.65s ease both;
+}
+
+.boot-rule {
+  display: block;
+  width: 48px;
+  height: 1px;
+  margin: 18px 0 16px;
+  background: rgba(244, 214, 220, 0.7);
+  animation: rise 0.65s ease 0.08s both;
+}
+
+.boot-role {
+  margin: 0;
   font-family: var(--xfce-font);
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #f0e8ea;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f4d6dc;
+  animation: rise 0.65s ease 0.12s both;
 }
 
 .boot-sub {
   font-family: var(--xfce-font);
-  font-size: 14px;
-  color: #a88890;
+  font-size: 13px;
+  color: #8aa0b8;
+  margin-top: 28px;
+  animation: rise 0.65s ease 0.2s both;
 }
 
 .boot-hint {
@@ -59,4 +68,13 @@
   font-size: 12px;
   color: #555;
   font-family: var(--xfce-font);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-who,
+  .boot-rule,
+  .boot-role,
+  .boot-sub {
+    animation: none;
+  }
 }

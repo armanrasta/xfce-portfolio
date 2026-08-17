@@ -52,4 +52,18 @@ export const DESKTOP_ICONS: IconDef[] = [
   },
 ];
 
-export const MENU_APPS = DESKTOP_ICONS;
+export const MENU_APPS: IconDef[] = [
+  ...DESKTOP_ICONS,
+  {
+    id: "showcase",
+    label: "Showcase",
+    category: "Development",
+    description: "NeoSafe + OpenCV",
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    category: "Settings",
+    description: "Appearance and session",
+  },
+];

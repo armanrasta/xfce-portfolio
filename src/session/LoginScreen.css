@@ -68,8 +68,10 @@
 
 .login-name {
   margin: 0;
+  font-family: "Syne", var(--xfce-font);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .login-host {

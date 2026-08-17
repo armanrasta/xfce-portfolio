@@ -127,6 +127,21 @@
   color: #333;
 }
 
+.tray-user {
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--xfce-panel-border);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f7f7f7, #d0d0d0);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--xfce-text);
+}
+
+.tray-user:hover {
+  filter: brightness(1.04);
+}
+
 .tray-pill {
   font-size: 10px;
   font-weight: 700;
@@ -268,51 +283,75 @@
   inset: 0;
   top: var(--panel-height);
   background:
-    radial-gradient(
-      ellipse 70% 55% at 75% 25%,
-      rgba(168, 0, 48, 0.22),
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 80% 60% at 20% 80%,
-      rgba(40, 90, 140, 0.45),
-      transparent 50%
-    ),
-    linear-gradient(155deg, #6a92b8 0%, #3d628a 42%, #254a6e 78%, #1a3550 100%);
+    radial-gradient(ellipse 90% 70% at 12% 80%, rgba(12, 22, 34, 0.35), transparent 55%),
+    radial-gradient(ellipse 70% 55% at 78% 22%, rgba(168, 0, 48, 0.28), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(40, 90, 140, 0.4), transparent 50%),
+    linear-gradient(155deg, #6e98bc 0%, #3d628a 40%, #243f5c 78%, #152536 100%);
+}
+
+.wallpaper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 16, 28, 0.08) 0%,
+    transparent 28%,
+    rgba(8, 16, 28, 0.22) 100%
+  );
+  pointer-events: none;
+}
+
+.wallpaper.wall-dusk {
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 20%, rgba(180, 80, 40, 0.3), transparent 50%),
+    linear-gradient(160deg, #3a4a6a 0%, #1e2838 50%, #121820 100%);
+}
+
+.wallpaper.wall-slate {
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 70%, rgba(80, 120, 140, 0.35), transparent 55%),
+    linear-gradient(180deg, #5a6570 0%, #3a4248 55%, #2a3036 100%);
+}
+
+.wallpaper.wall-slate .wallpaper-swirl,
+.wallpaper.wall-dusk .wallpaper-swirl {
+  opacity: 0.35;
 }
 
 .wallpaper-swirl {
   position: absolute;
-  right: 6%;
-  bottom: 10%;
-  width: min(340px, 42vw);
-  height: min(340px, 42vw);
+  right: 4%;
+  bottom: 8%;
+  width: min(420px, 48vw);
+  height: min(420px, 48vw);
   border-radius: 50%;
   background:
     conic-gradient(
       from 200deg,
       transparent 0deg,
-      rgba(168, 0, 48, 0.35) 40deg,
-      transparent 90deg,
-      rgba(255, 255, 255, 0.08) 140deg,
+      rgba(168, 0, 48, 0.38) 38deg,
+      transparent 92deg,
+      rgba(255, 255, 255, 0.1) 140deg,
       transparent 200deg,
-      rgba(168, 0, 48, 0.2) 260deg,
+      rgba(168, 0, 48, 0.22) 260deg,
       transparent 320deg
     );
-  filter: blur(1px);
-  opacity: 0.85;
+  filter: blur(0.6px);
+  opacity: 0.9;
   pointer-events: none;
+  animation: swirl-spin 90s linear infinite;
 }
 
 .wallpaper::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.1;
+  opacity: 0.06;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
   pointer-events: none;
 }
 
@@ -328,17 +367,16 @@
 }
 
 .desk-icon {
-  width: 88px;
-  padding: 8px 4px;
+  width: 84px;
+  padding: 8px 4px 6px;
   border: 1px solid transparent;
-  border-radius: 3px;
   background: transparent;
   color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .desk-icon:hover,
@@ -359,16 +397,83 @@
 }
 
 .desk-icon-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   text-align: center;
   line-height: 1.2;
-  padding: 1px 4px;
-  border-radius: 2px;
+  padding: 1px 5px;
 }
 
 .desk-icon:hover .desk-icon-label {
   background: rgba(0, 80, 160, 0.55);
+}
+
+.desk-ctx {
+  position: fixed;
+  z-index: 800;
+  min-width: 200px;
+  padding: 4px 0;
+  background: var(--xfce-menu);
+  border: 1px solid var(--xfce-window-border);
+  box-shadow: var(--xfce-shadow);
+}
+
+.desk-ctx button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: var(--xfce-text);
+}
+
+.desk-ctx button:hover {
+  background: var(--xfce-accent);
+  color: #fff;
+}
+
+.desktop.theme-dark .panel {
+  background: linear-gradient(180deg, #4a4a4a 0%, #323232 45%, #2a2a2a 100%);
+  border-bottom-color: #111;
+  color: #eee;
+}
+
+.desktop.theme-dark .panel-menu-btn,
+.desktop.theme-dark .panel-clock,
+.desktop.theme-dark .tray-icon {
+  color: #eee;
+}
+
+.desktop.theme-dark .panel-task {
+  background: linear-gradient(180deg, #555, #3a3a3a);
+  border-color: #222;
+  color: #eee;
+}
+
+.desktop.theme-dark .panel-task.active {
+  background: linear-gradient(180deg, #3d6a88, #2a4a62);
+}
+
+.desktop.theme-dark .tray-user {
+  background: linear-gradient(180deg, #555, #3a3a3a);
+  border-color: #222;
+  color: #eee;
+}
+
+.desktop.theme-dark .app-menu {
+  background: #3a3a3a;
+  color: #eee;
+}
+
+.desktop.theme-dark .app-menu-item {
+  color: #eee;
+}
+
+.desktop.theme-dark .app-menu-header,
+.desktop.theme-dark .app-menu-desc {
+  color: #bbb;
 }
 
 .window-layer {
@@ -381,6 +486,12 @@
 
 .window-layer > * {
   pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallpaper-swirl {
+    animation: none;
+  }
 }
 
 @media (max-width: 640px) {

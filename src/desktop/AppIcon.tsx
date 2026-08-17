@@ -82,6 +82,24 @@ export function AppIcon({ id, size = 32, className }: Props) {
           <circle cx="12" cy="24" r="1.2" fill="#fff" />
         </svg>
       );
+    case "settings":
+      return (
+        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
+          <circle cx="24" cy="24" r="7" fill="#c8ccd0" stroke="#555" strokeWidth="2" />
+          <path
+            fill="#888"
+            d="M22 6h4l1 5 4-2 3 3-2 4 5 1v4l-5 1 2 4-3 3-4-2-1 5h-4l-1-5-4 2-3-3 2-4-5-1v-4l5-1-2-4 3-3 4 2 1-5z"
+          />
+        </svg>
+      );
+    case "showcase":
+      return (
+        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
+          <rect x="6" y="10" width="36" height="28" rx="2" fill="#1a2838" stroke="#3c7fb1" strokeWidth="1.5" />
+          <path d="M10 32l8-10 6 7 6-8 8 11" fill="none" stroke="#7dffa0" strokeWidth="2" />
+          <circle cx="18" cy="22" r="2" fill="#ff7139" />
+        </svg>
+      );
   }
 }
 

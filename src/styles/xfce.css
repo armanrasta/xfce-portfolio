@@ -24,9 +24,26 @@
   --xfce-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   --xfce-font: "Cantarell", "Noto Sans", "DejaVu Sans", sans-serif;
   --xfce-mono: "Ubuntu Mono", "DejaVu Sans Mono", monospace;
-  --panel-height: 28px;
+  --panel-height: 30px;
   --titlebar-height: 26px;
   --desktop-pad-top: calc(var(--panel-height) + 12px);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes swirl-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 *,
@@ -67,7 +84,7 @@ button {
 @keyframes window-in {
   from {
     opacity: 0;
-    transform: scale(0.97) translateY(4px);
+    transform: scale(0.985) translateY(6px);
   }
   to {
     opacity: 1;
