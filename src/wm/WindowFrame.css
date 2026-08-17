@@ -1,0 +1,102 @@
+.win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: var(--xfce-window);
+  border: 1px solid var(--xfce-window-border);
+  box-shadow: var(--xfce-shadow);
+  border-radius: 0;
+  animation: window-in 0.14s ease-out;
+  min-width: 280px;
+  min-height: 160px;
+}
+
+.win-max {
+  box-shadow: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.win-titlebar {
+  height: var(--titlebar-height);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 3px 0 6px;
+  background: var(--xfce-titlebar);
+  border-bottom: 1px solid var(--xfce-panel-border);
+  cursor: default;
+  user-select: none;
+  color: var(--xfce-titlebar-text);
+}
+
+.win-active .win-titlebar {
+  background: var(--xfce-titlebar-active);
+  color: var(--xfce-titlebar-text-active);
+  border-bottom-color: #245a7a;
+}
+
+.win-icon {
+  display: grid;
+  place-items: center;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.win-title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.win-controls {
+  display: flex;
+  gap: 1px;
+}
+
+.win-btn {
+  width: 24px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  display: grid;
+  place-items: center;
+}
+
+.win-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.win-active .win-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.win-btn-close:hover {
+  background: #c0392b !important;
+  color: #fff;
+  border-color: #922b21;
+}
+
+.win-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.win-body > * {
+  flex: 1;
+  min-height: 0;
+}
