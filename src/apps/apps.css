@@ -1,0 +1,296 @@
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+.mousepad-toolbar {
+  display: flex;
+  gap: 14px;
+  padding: 4px 10px;
+  background: linear-gradient(180deg, #f5f6f8, #e4e6ea);
+  border-bottom: 1px solid var(--xfce-panel-border);
+  font-size: 12px;
+  color: var(--xfce-text);
+  user-select: none;
+}
+
+.mousepad-body {
+  flex: 1;
+  overflow: auto;
+  padding: 16px 18px;
+  background: #fffef8;
+}
+
+.mousepad-body h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.about-role {
+  margin: 0 0 14px;
+  color: var(--xfce-accent-dark);
+  font-weight: 600;
+}
+
+.about-text {
+  margin: 0 0 16px;
+  font-family: var(--xfce-mono);
+  font-size: 13px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.mousepad-body h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.about-meta {
+  margin: -8px 0 14px;
+  font-size: 12px;
+  color: var(--xfce-muted);
+}
+
+.about-job {
+  margin: 0 0 14px;
+}
+
+.about-job header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.about-job header span {
+  font-size: 12px;
+  color: var(--xfce-muted);
+}
+
+.about-job ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.about-job li {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.about-edu {
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.skill-group {
+  margin: 0 0 6px;
+  line-height: 1.45;
+}
+
+.mousepad-status {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: var(--xfce-muted);
+  border-top: 1px solid #ddd;
+  background: #f0f0f0;
+}
+
+.projects-app {
+  flex-direction: row;
+}
+
+.projects-list {
+  width: 180px;
+  flex-shrink: 0;
+  border-right: 1px solid #ddd;
+  background: #f4f5f7;
+  overflow: auto;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  font-size: 12px;
+}
+
+.project-item:hover {
+  background: #e6eaf0;
+}
+
+.project-item.selected {
+  background: #cde0f4;
+  border-color: var(--xfce-accent);
+}
+
+.project-detail {
+  flex: 1;
+  padding: 18px 20px;
+  overflow: auto;
+}
+
+.project-detail h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.project-detail p {
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.tag {
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: #e4eef6;
+  border: 1px solid #b0cce0;
+  font-size: 11px;
+  color: var(--xfce-accent-dark);
+}
+
+.project-link {
+  color: var(--xfce-accent-dark);
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--xfce-muted);
+}
+
+.contact-app {
+  flex-direction: row;
+  gap: 0;
+}
+
+.contact-info {
+  width: 42%;
+  padding: 18px;
+  border-right: 1px solid #ddd;
+  background: #f7f8fa;
+}
+
+.contact-info h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.contact-info dl {
+  margin: 0;
+}
+
+.contact-info dt {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--xfce-muted);
+  margin-top: 10px;
+}
+
+.contact-info dd {
+  margin: 2px 0 0;
+}
+
+.contact-info a {
+  color: var(--xfce-accent-dark);
+}
+
+.contact-form {
+  flex: 1;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--xfce-muted);
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: 1px solid #9aa0a6;
+  border-radius: 2px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--xfce-accent);
+  outline-offset: -1px;
+}
+
+.xfce-btn {
+  align-self: flex-start;
+  height: 30px;
+  padding: 0 14px;
+  border: 1px solid #8a9098;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f8f9fa, #d8dce0);
+  font-size: 12px;
+  color: var(--xfce-text);
+}
+
+.xfce-btn:hover:not(:disabled) {
+  filter: brightness(1.03);
+}
+
+.xfce-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.xfce-btn.primary {
+  border-color: var(--xfce-accent-dark);
+  background: linear-gradient(180deg, #5a9bc8, #3c7fb1);
+  color: #fff;
+}
+
+.sent-note {
+  margin: 0;
+  font-size: 12px;
+  color: #2e7d32;
+}
+
+@media (max-width: 640px) {
+  .projects-app,
+  .contact-app {
+    flex-direction: column;
+  }
+
+  .projects-list,
+  .contact-info {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .skill-list {
+    columns: 1;
+  }
+}
