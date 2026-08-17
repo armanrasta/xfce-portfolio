@@ -1,0 +1,61 @@
+.terminal {
+  height: 100%;
+  background: #1c1c1c;
+  color: #e6e6e6;
+  font-family: var(--xfce-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: text;
+}
+
+.terminal-scroll {
+  height: 100%;
+  overflow: auto;
+  padding: 10px 12px 14px;
+}
+
+.term-line {
+  margin: 0 0 2px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.term-in {
+  color: #d0d0d0;
+}
+
+.term-out {
+  color: #c8e6c8;
+}
+
+.term-err {
+  color: #ff8a80;
+}
+
+.term-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.term-prompt {
+  color: #7dffa0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.term-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  caret-color: #7dffa0;
+}
