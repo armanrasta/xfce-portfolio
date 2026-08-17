@@ -27,13 +27,14 @@ Edit [`src/content/portfolio.ts`](src/content/portfolio.ts).
 
 ## Deploy
 
-Live on GitHub Pages: **https://armanrasta.github.io/xfce-portfolio/**
+- **Custom domain:** https://armanrostami.ir
+- **Project URL (fallback):** https://armanrasta.github.io/xfce-portfolio/
 
-No extra host. Push to `master` and the Deploy workflow publishes `dist`.
+Push to `master` and the Deploy workflow publishes `dist`.
 
-To use **armanrostami.ir** later, point DNS at GitHub (below), add `public/CNAME` with that hostname, and set Vite `base` to `/`.
+This repo owns **armanrostami.ir**. Your separate user site (`armanrasta.github.io` repo) stays at https://armanrasta.github.io/ — do not point the domain’s `www` CNAME at `armanrasta.github.io` or GitHub will serve the wrong site.
 
-**A records** for `@` / `armanrostami.ir`:
+**Cloudflare DNS** for `armanrostami.ir`:
 
 | Type | Name | Value |
 | --- | --- | --- |
@@ -51,10 +52,10 @@ To use **armanrostami.ir** later, point DNS at GitHub (below), add `public/CNAME
 | AAAA | @ | 2606:50c0:8000::155 |
 | AAAA | @ | 2606:50c0:8000::156 |
 
-**www** (optional):
+**www:**
 
 | Type | Name | Value |
 | --- | --- | --- |
-| CNAME | www | armanrasta.github.io |
+| CNAME | www | armanrostami.ir |
 
-Remove any existing A/AAAA/CNAME on `@` that point elsewhere. DNS can take a few minutes to a few hours. After GitHub verifies the domain, HTTPS is turned on automatically.
+Remove any existing A/AAAA/CNAME on `@` that point elsewhere. Keep GitHub records on **DNS only** (grey cloud). HTTPS is enabled after GitHub verifies the domain.
