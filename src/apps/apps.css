@@ -176,6 +176,227 @@
   color: var(--xfce-muted);
 }
 
+.id-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.about-scan {
+  font-family: var(--xfce-font);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.about-scan-jobs {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #e0d8c8;
+  background: #fff;
+}
+
+.about-scan-jobs li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+}
+
+.about-scan-jobs li:last-child {
+  border-bottom: none;
+}
+
+.about-scan-jobs span {
+  color: var(--xfce-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.contact-cards {
+  flex-direction: column;
+  padding: 16px 18px;
+  overflow: auto;
+  background: #f7f8fa;
+}
+
+.contact-hero h2 {
+  margin: 0;
+}
+
+.contact-hero p {
+  margin: 6px 0 0;
+  line-height: 1.45;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #c8ccd0;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #fff, #eef1f4);
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact-card:hover {
+  border-color: var(--xfce-accent);
+}
+
+.contact-card span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--xfce-muted);
+}
+
+.contact-card strong {
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.settings-app,
+.showcase-app {
+  padding: 16px 18px;
+  overflow: auto;
+  background: #f7f8fa;
+}
+
+.settings-app h2,
+.showcase-app h2 {
+  margin: 0 0 12px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.settings-row select {
+  height: 28px;
+  min-width: 160px;
+}
+
+.settings-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+
+.showcase-hero .id-kicker {
+  margin: 0 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--debian-red);
+}
+
+.showcase-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.showcase-metrics div {
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #d0d7de;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.showcase-metrics strong {
+  font-size: 13px;
+}
+
+.showcase-metrics span {
+  font-size: 11px;
+  color: var(--xfce-muted);
+}
+
+.arch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.arch-box {
+  padding: 8px 10px;
+  background: #1a2838;
+  color: #e8eef5;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 2px;
+}
+
+.arch-arrow {
+  color: var(--xfce-muted);
+  font-size: 14px;
+}
+
+.arch-note,
+.showcase-cv {
+  font-size: 12px;
+  color: var(--xfce-muted);
+  margin: 4px 0 10px;
+}
+
+.gh-live-head {
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
+
+.gh-live {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.gh-live li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+}
+
+.gh-live a {
+  color: var(--xfce-accent-dark);
+  font-weight: 600;
+}
+
+a.xfce-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
 .contact-app {
   flex-direction: row;
   gap: 0;
@@ -290,7 +511,11 @@
     border-bottom: 1px solid #ddd;
   }
 
-  .skill-list {
-    columns: 1;
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-metrics {
+    grid-template-columns: 1fr;
   }
 }

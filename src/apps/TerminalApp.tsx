@@ -8,6 +8,7 @@ import {
 } from "react";
 import { portfolio } from "../content/portfolio";
 import { listDir, resolvePath } from "./filesystem";
+import { fetchGithubRepos } from "./github";
 import "./TerminalApp.css";
 
 type Line = { kind: "in" | "out" | "err"; text: string };
@@ -77,7 +78,7 @@ export function TerminalApp() {
             text: [
               "Available commands:",
               "  help, clear, whoami, neofetch, about, experience, skills",
-              "  projects, contact",
+              "  projects, contact, github",
               "  ls [path], cd [path], cat <file>, pwd, date, echo <text>",
             ].join("\n"),
           });
@@ -139,6 +140,26 @@ export function TerminalApp() {
               .join("\n"),
           });
           break;
+        case "github":
+          next.push({ kind: "out", text: "Fetching github.com/armanrasta …" });
+          setLines((L) => [...L, ...next]);
+          void fetchGithubRepos()
+            .then((repos) => {
+              const text = repos
+                .map(
+                  (r) =>
+                    `${r.name}  ★${r.stargazers_count}${r.language ? `  (${r.language})` : ""}\n  ${r.html_url}`,
+                )
+                .join("\n");
+              setLines((L) => [
+                ...L,
+                { kind: "out", text: text || "(no public repos)" },
+              ]);
+            })
+            .catch((e: Error) => {
+              setLines((L) => [...L, { kind: "err", text: e.message }]);
+            });
+          return;
         case "ls": {
           const path = args[0]
             ? args[0].startsWith("/") || args[0].startsWith("~")

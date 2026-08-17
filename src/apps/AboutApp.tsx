@@ -16,6 +16,21 @@ export function AboutApp() {
         <p className="about-meta">
           {portfolio.location} · {portfolio.contact.email}
         </p>
+        <p className="about-text about-scan">{portfolio.blurb}</p>
+        <ul className="about-scan-jobs">
+          {portfolio.experience.map((job) => (
+            <li key={`${job.company}-${job.period}`}>
+              <strong>
+                {job.role} · {job.company}
+              </strong>
+              <span>
+                {job.period}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <h3>Profile</h3>
         <pre className="about-text">{portfolio.about}</pre>
 
         <h3>Experience</h3>
@@ -55,9 +70,7 @@ export function AboutApp() {
         <h3>Languages</h3>
         <p>{portfolio.languages.join(" · ")}</p>
       </div>
-      <div className="mousepad-status">
-        UTF-8 — ~/Documents/About.txt
-      </div>
+      <div className="mousepad-status">UTF-8 — ~/Documents/About.txt</div>
     </div>
   );
 }
