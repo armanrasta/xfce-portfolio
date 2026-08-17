@@ -1,7 +1,7 @@
 :root {
   /* Debian XFCE / Greybird */
-  --debian-red: #a80030;
-  --debian-red-dark: #7a0022;
+  --debian-red: #d70751;
+  --debian-red-dark: #9a053b;
   --xfce-bg: #5b87b5;
   --xfce-bg-deep: #2c4a6e;
   --xfce-panel: #cecece;
@@ -40,12 +40,6 @@
   }
 }
 
-@keyframes swirl-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 *,
 *::before,
 *::after {
@@ -74,6 +68,12 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+.debian-logo {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 ::selection {

@@ -101,7 +101,7 @@ function NewTabPage({ onOpen }: { onOpen: (url: string) => void }) {
     { title: "GitHub", subtitle: "github.com", url: "https://github.com" },
     {
       title: "LinkedIn",
-      subtitle: "linkedin.com/in/arman--rostami",
+      subtitle: "www.linkedin.com/in/arman--rostami",
       url: portfolio.contact.linkedin,
     },
     {

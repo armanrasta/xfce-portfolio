@@ -246,9 +246,7 @@ export function Desktop() {
         </div>
       )}
 
-      <div className={`wallpaper wall-${state.wallpaper}`} aria-hidden>
-        <div className="wallpaper-swirl" />
-      </div>
+      <div className={`wallpaper wall-${state.wallpaper}`} aria-hidden />
 
       <IdentityHero />
       {state.widgetVisible && <IdentityWidget />}
