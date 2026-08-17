@@ -1,0 +1,241 @@
+/* Mobile / touch layout (≤768px) */
+
+@media (max-width: 768px) {
+  :root {
+    --panel-height: 36px;
+    --titlebar-height: 32px;
+    --desktop-pad-top: calc(var(--panel-height) + 8px);
+  }
+
+  html,
+  body,
+  #root {
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+
+  .panel {
+    gap: 0;
+    padding-left: max(2px, env(safe-area-inset-left));
+    padding-right: max(2px, env(safe-area-inset-right));
+  }
+
+  .panel-menu-btn {
+    min-width: 40px;
+    min-height: 32px;
+    padding: 0 8px;
+  }
+
+  .panel-tray {
+    gap: 4px;
+    padding: 0 4px 0 6px;
+  }
+
+  .tray-user {
+    max-width: 72px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 6px;
+    font-size: 10px;
+  }
+
+  .tray-pill {
+    display: none;
+  }
+
+  .panel-clock {
+    font-size: 10px;
+  }
+
+  .panel-task {
+    max-width: 72px;
+    min-width: 36px;
+    padding: 0 6px;
+  }
+
+  .panel-task span {
+    display: none;
+  }
+
+  /* Bottom app dock instead of left column */
+  .desktop-mobile .desktop-icons {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    gap: 4px;
+    padding: 6px max(8px, env(safe-area-inset-right))
+      max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(8, 16, 28, 0.55) 28%,
+      rgba(8, 16, 28, 0.82)
+    );
+    z-index: 4;
+  }
+
+  .desktop-mobile .desk-icon {
+    flex: 0 0 auto;
+    width: 64px;
+    min-height: 72px;
+    scroll-snap-align: start;
+    padding: 6px 4px;
+  }
+
+  .desktop-mobile .desk-icon-img svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .desktop-mobile .desk-icon-label {
+    font-size: 10px;
+  }
+
+  .desktop-mobile .id-hero {
+    padding: 0 18px max(96px, calc(88px + env(safe-area-inset-bottom))) 18px;
+    justify-content: flex-end;
+  }
+
+  .desktop-mobile .id-hero-name {
+    font-size: clamp(36px, 12vw, 56px);
+  }
+
+  .desktop-mobile .id-hero-title {
+    margin-top: 14px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .desktop-mobile .id-hero-blurb {
+    font-size: 14px;
+    max-width: none;
+  }
+
+  .desktop-mobile .id-hero-aside {
+    font-size: 12px;
+  }
+
+  .desktop-mobile .id-hero-meta {
+    display: none;
+  }
+
+  .desktop-mobile .id-hero-cta {
+    margin-top: 18px;
+    gap: 8px 12px;
+  }
+
+  .desktop-mobile .id-hero-btn {
+    min-height: 40px;
+    padding: 0 16px;
+  }
+
+  .desktop-mobile.has-windows .id-hero {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .notify-host {
+    left: 8px;
+    bottom: max(88px, calc(80px + env(safe-area-inset-bottom)));
+    width: calc(100vw - 16px);
+  }
+
+  .desk-ctx {
+    max-width: calc(100vw - 16px);
+  }
+
+  .app-menu {
+    width: min(320px, calc(100vw - 8px));
+    max-height: calc(100dvh - var(--panel-height) - 8px);
+  }
+
+  .win-mobile .win-titlebar {
+    touch-action: none;
+  }
+
+  .win-mobile .win-btn {
+    width: 32px;
+    height: 28px;
+  }
+
+  .win-mobile .win-title {
+    font-size: 11px;
+  }
+
+  .login-card {
+    margin: 16px;
+    padding: 22px 20px 18px;
+  }
+
+  .login-swirl {
+    width: min(200px, 50vw);
+    height: min(200px, 50vw);
+    opacity: 0.2;
+  }
+
+  .boot-who {
+    font-size: clamp(32px, 10vw, 48px);
+  }
+
+  .boot-sub {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+
+  .mousepad-body,
+  .app {
+    font-size: 14px;
+  }
+
+  .mousepad-toolbar {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .ff-toolbar {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .ff-url {
+    min-width: 0;
+    flex: 1 1 100%;
+    order: 3;
+  }
+
+  .thunar {
+    font-size: 13px;
+  }
+
+  .thunar-path {
+    overflow-x: auto;
+  }
+
+  .snake-board,
+  .mine-board,
+  .pong-stage {
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .desktop-mobile .id-hero {
+    padding-bottom: max(72px, calc(64px + env(safe-area-inset-bottom)));
+  }
+
+  .desktop-mobile .id-hero-name {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+
+  .desktop-mobile .desktop-icons {
+    padding-top: 4px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
+  }
+}

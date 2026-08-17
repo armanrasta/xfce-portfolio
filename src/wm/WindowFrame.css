@@ -170,6 +170,13 @@
   cursor: nesw-resize;
 }
 
-.win-max .win-resize {
+.win-mobile .win-btn[hidden] {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .win {
+    min-width: 0;
+    max-width: 100%;
+  }
 }

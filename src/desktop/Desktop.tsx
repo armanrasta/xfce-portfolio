@@ -3,6 +3,7 @@ import { DESKTOP_ICONS, MENU_APPS } from "./icons";
 import { AppIcon, DebianLogo } from "./AppIcon";
 import { IdentityHero, IdentityWidget } from "./IdentityWidget";
 import { NotifyHost } from "./NotifyHost";
+import { useMobileLayout } from "../hooks/useMobileLayout";
 import { useSession, type AppId, type WallpaperId } from "../session/SessionContext";
 import { WindowFrame } from "../wm/WindowFrame";
 import { AboutApp } from "../apps/AboutApp";
@@ -99,6 +100,7 @@ export function Desktop() {
     reboot,
     pushToast,
   } = useSession();
+  const mobile = useMobileLayout();
   const [ctx, setCtx] = useState<{ x: number; y: number } | null>(null);
   const konami = useRef(0);
 
@@ -158,7 +160,7 @@ export function Desktop() {
 
   return (
     <div
-      className={`desktop theme-${state.theme}`}
+      className={`desktop theme-${state.theme} ${mobile ? "desktop-mobile" : ""} ${state.windows.length ? "has-windows" : ""}`}
       onContextMenu={onDesktopContext}
     >
       <header className="panel">

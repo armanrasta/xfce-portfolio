@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import { useSession, type WindowState } from "../session/SessionContext";
+import { useMobileLayout } from "../hooks/useMobileLayout";
 import { AppIcon } from "../desktop/AppIcon";
 import "./WindowFrame.css";
 
@@ -30,6 +31,8 @@ export function WindowFrame({ win, children }: Props) {
     moveWindow,
     resizeWindow,
   } = useSession();
+  const mobile = useMobileLayout();
+  const fullscreen = win.maximized || mobile;
   const active = state.focusedId === win.id && !win.minimized;
   const drag = useRef<{ ox: number; oy: number; sx: number; sy: number } | null>(
     null,
@@ -37,7 +40,7 @@ export function WindowFrame({ win, children }: Props) {
 
   const onTitleDown = useCallback(
     (e: ReactMouseEvent) => {
-      if (win.maximized) return;
+      if (fullscreen) return;
       if ((e.target as HTMLElement).closest(".win-btn")) return;
       e.preventDefault();
       focusApp(win.id);
@@ -71,7 +74,7 @@ export function WindowFrame({ win, children }: Props) {
 
   const onResizeDown = useCallback(
     (edge: Edge) => (e: ReactMouseEvent) => {
-      if (win.maximized) return;
+      if (fullscreen) return;
       e.preventDefault();
       e.stopPropagation();
       focusApp(win.id);
@@ -127,7 +130,7 @@ export function WindowFrame({ win, children }: Props) {
 
   if (win.minimized) return null;
 
-  const style: CSSProperties = win.maximized
+  const style: CSSProperties = fullscreen
     ? {
         left: 0,
         top: 0,
@@ -145,14 +148,16 @@ export function WindowFrame({ win, children }: Props) {
 
   return (
     <div
-      className={`win ${active ? "win-active" : ""} ${win.maximized ? "win-max" : ""}`}
+      className={`win ${active ? "win-active" : ""} ${fullscreen ? "win-max" : ""} ${mobile ? "win-mobile" : ""}`}
       style={style}
       onMouseDown={() => focusApp(win.id)}
     >
       <div
         className="win-titlebar"
         onMouseDown={onTitleDown}
-        onDoubleClick={() => toggleMaximize(win.id)}
+        onDoubleClick={() => {
+          if (!mobile) toggleMaximize(win.id);
+        }}
       >
         <span className="win-icon">
           <AppIcon id={win.id} size={16} />
@@ -176,6 +181,7 @@ export function WindowFrame({ win, children }: Props) {
             type="button"
             className="win-btn"
             aria-label="Maximize"
+            hidden={mobile}
             onClick={(e) => {
               e.stopPropagation();
               toggleMaximize(win.id);
@@ -213,7 +219,7 @@ export function WindowFrame({ win, children }: Props) {
         </div>
       </div>
       <div className="win-body">{children}</div>
-      {!win.maximized &&
+      {!fullscreen &&
         EDGES.map((edge) => (
           <div
             key={edge}

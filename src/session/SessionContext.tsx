@@ -7,6 +7,7 @@ import {
   useReducer,
   type ReactNode,
 } from "react";
+import { isMobileViewport } from "../hooks/useMobileLayout";
 
 export type SessionPhase = "boot" | "login" | "starting" | "desktop";
 
@@ -146,6 +147,19 @@ const PANEL = 28;
 
 function defaultWindow(id: AppId, z: number): WindowState {
   const meta = APP_META[id];
+  if (isMobileViewport()) {
+    return {
+      id,
+      title: meta.title,
+      x: 0,
+      y: 0,
+      width: window.innerWidth,
+      height: Math.max(200, window.innerHeight - PANEL),
+      z,
+      minimized: false,
+      maximized: true,
+    };
+  }
   const cascade = meta.offset * 28;
   return {
     id,
@@ -179,6 +193,7 @@ function reducer(state: SessionState, action: Action): SessionState {
       return { ...state, menuOpen: action.open };
     case "OPEN_APP": {
       const existing = state.windows.find((w) => w.id === action.id);
+      const mobile = isMobileViewport();
       if (existing) {
         const z = state.nextZ;
         return {
@@ -188,7 +203,12 @@ function reducer(state: SessionState, action: Action): SessionState {
           menuOpen: false,
           windows: state.windows.map((w) =>
             w.id === action.id
-              ? { ...w, minimized: false, z }
+              ? {
+                  ...w,
+                  minimized: false,
+                  maximized: mobile ? true : w.maximized,
+                  z,
+                }
               : w,
           ),
         };

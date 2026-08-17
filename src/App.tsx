@@ -3,6 +3,7 @@ import { BootSplash } from "./session/BootSplash";
 import { LoginScreen, StartingSession } from "./session/LoginScreen";
 import { Desktop } from "./desktop/Desktop";
 import "./styles/xfce.css";
+import "./styles/mobile.css";
 
 function SessionRoot() {
   const { state } = useSession();
