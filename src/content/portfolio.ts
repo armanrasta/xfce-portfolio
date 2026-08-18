@@ -21,7 +21,7 @@ export const portfolio = {
   title: "Platform Engineer | Distributed Systems Specialist",
   location: "Tehran, Iran",
   siteUrl: "https://armanrostami.ir",
-  seoTitle: "Arman Rostami — Platform Engineer | Distributed Systems Specialist",
+  seoTitle: "Arman Rostami — Platform Engineer",
   seoDescription:
     "Arman Rostami is a Platform Engineer and Distributed Systems Specialist in Tehran. Backend platforms, Kubernetes, Pulsar, computer vision, OpenCV, and production AI systems — portfolio and resume.",
   seoKeywords: [
