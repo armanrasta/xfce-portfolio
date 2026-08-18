@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { isMobileViewport } from "../hooks/useMobileLayout";
+import { parseBlogLocation } from "../content/blogLocation";
 
 export type SessionPhase = "boot" | "login" | "starting" | "desktop";
 
@@ -23,7 +24,8 @@ export type AppId =
   | "firefox"
   | "settings"
   | "showcase"
-  | "xeyes";
+  | "xeyes"
+  | "blog";
 
 export type Toast = { id: number; title: string; body: string };
 
@@ -53,13 +55,15 @@ type SessionState = {
   theme: ThemeId;
   widgetVisible: boolean;
   autostart: boolean;
+  blogSlug: string | null;
   toasts: Toast[];
   nextToastId: number;
 };
 
 type Action =
   | { type: "SET_PHASE"; phase: SessionPhase }
-  | { type: "OPEN_APP"; id: AppId }
+  | { type: "OPEN_APP"; id: AppId; slug?: string }
+  | { type: "SET_BLOG_SLUG"; slug: string | null }
   | { type: "CLOSE_APP"; id: AppId }
   | { type: "FOCUS_APP"; id: AppId }
   | { type: "MINIMIZE_APP"; id: AppId }
@@ -92,6 +96,7 @@ const APP_META: Record<
   settings: { title: "Settings — Appearance", width: 420, height: 360, offset: 2 },
   showcase: { title: "NeoSafe / OpenCV", width: 640, height: 480, offset: 1 },
   xeyes: { title: "XEyes", width: 280, height: 180, offset: 8 },
+  blog: { title: "Blog", width: 760, height: 540, offset: 1 },
 };
 
 const PREFS_KEY = "xfce-prefs";
@@ -175,11 +180,18 @@ function defaultWindow(id: AppId, z: number): WindowState {
 }
 
 const initialState: SessionState = {
-  phase: "boot",
+  phase:
+    typeof window !== "undefined" && parseBlogLocation(window.location)
+      ? "desktop"
+      : "boot",
   windows: [],
   nextZ: 1,
   menuOpen: false,
   focusedId: null,
+  blogSlug:
+    typeof window !== "undefined"
+      ? (parseBlogLocation(window.location)?.slug ?? null)
+      : null,
   toasts: [],
   nextToastId: 1,
   ...loadPrefs(),
@@ -201,6 +213,7 @@ function reducer(state: SessionState, action: Action): SessionState {
           nextZ: z + 1,
           focusedId: action.id,
           menuOpen: false,
+          blogSlug: action.slug !== undefined ? action.slug : state.blogSlug,
           windows: state.windows.map((w) =>
             w.id === action.id
               ? {
@@ -219,6 +232,7 @@ function reducer(state: SessionState, action: Action): SessionState {
         nextZ: z + 1,
         focusedId: action.id,
         menuOpen: false,
+        blogSlug: action.slug !== undefined ? action.slug : state.blogSlug,
         windows: [...state.windows, defaultWindow(action.id, z)],
       };
     }
@@ -314,6 +328,8 @@ function reducer(state: SessionState, action: Action): SessionState {
       return { ...state, widgetVisible: action.visible };
     case "SET_AUTOSTART":
       return { ...state, autostart: action.on };
+    case "SET_BLOG_SLUG":
+      return { ...state, blogSlug: action.slug };
     case "PUSH_TOAST": {
       const toast: Toast = {
         id: state.nextToastId,
@@ -359,7 +375,7 @@ function reducer(state: SessionState, action: Action): SessionState {
 type SessionApi = {
   state: SessionState;
   setPhase: (phase: SessionPhase) => void;
-  openApp: (id: AppId) => void;
+  openApp: (id: AppId, opts?: { slug?: string }) => void;
   closeApp: (id: AppId) => void;
   focusApp: (id: AppId) => void;
   minimizeApp: (id: AppId) => void;
@@ -371,6 +387,7 @@ type SessionApi = {
   setTheme: (theme: ThemeId) => void;
   setWidgetVisible: (visible: boolean) => void;
   setAutostart: (on: boolean) => void;
+  setBlogSlug: (slug: string | null) => void;
   pushToast: (title: string, body: string) => void;
   dismissToast: (id: number) => void;
   logout: () => void;
@@ -397,7 +414,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     [],
   );
   const openApp = useCallback(
-    (id: AppId) => dispatch({ type: "OPEN_APP", id }),
+    (id: AppId, opts?: { slug?: string }) =>
+      dispatch({ type: "OPEN_APP", id, slug: opts?.slug }),
     [],
   );
   const closeApp = useCallback(
@@ -446,6 +464,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     (on: boolean) => dispatch({ type: "SET_AUTOSTART", on }),
     [],
   );
+  const setBlogSlug = useCallback(
+    (slug: string | null) => dispatch({ type: "SET_BLOG_SLUG", slug }),
+    [],
+  );
   const pushToast = useCallback((title: string, body: string) => {
     dispatch({ type: "PUSH_TOAST", title, body });
   }, []);
@@ -472,6 +494,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setTheme,
       setWidgetVisible,
       setAutostart,
+      setBlogSlug,
       pushToast,
       dismissToast,
       logout,
@@ -493,6 +516,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setTheme,
       setWidgetVisible,
       setAutostart,
+      setBlogSlug,
       pushToast,
       dismissToast,
       logout,

@@ -125,6 +125,17 @@ export function AppIcon({ id, size = 32, className }: Props) {
           <circle cx="33" cy="26" r="3" fill="#111" />
         </svg>
       );
+    case "blog":
+      return (
+        <svg className={className} width={s} height={s} viewBox="0 0 48 48" aria-hidden>
+          <rect x="10" y="6" width="28" height="36" rx="2" fill="#f7f1e1" stroke="#8a7048" strokeWidth="1.5" />
+          <rect x="8" y="8" width="28" height="36" rx="2" fill="#fffef8" stroke="#8a7048" strokeWidth="1.5" />
+          <rect x="14" y="14" width="16" height="2.5" rx="1" fill="#c4a574" />
+          <rect x="14" y="20" width="16" height="2" rx="1" fill="#d4c4a8" />
+          <rect x="14" y="25" width="12" height="2" rx="1" fill="#d4c4a8" />
+          <rect x="14" y="30" width="14" height="2" rx="1" fill="#d4c4a8" />
+        </svg>
+      );
   }
 }
 

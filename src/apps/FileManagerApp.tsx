@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { portfolio } from "../content/portfolio";
-import { useSession, type AppId } from "../session/SessionContext";
+import { useSession } from "../session/SessionContext";
 import { homeFs, resolvePath, type FsNode } from "./filesystem";
 import "./FileManagerApp.css";
 
@@ -36,7 +36,7 @@ export function FileManagerApp() {
       return;
     }
     if (entry.openApp) {
-      openApp(entry.openApp as AppId);
+      openApp(entry.openApp, entry.openSlug ? { slug: entry.openSlug } : undefined);
       return;
     }
     setSelected(entry.name);
@@ -146,7 +146,12 @@ export function FileManagerApp() {
                 <button
                   type="button"
                   className="xfce-btn primary"
-                  onClick={() => openApp(preview.openApp!)}
+                  onClick={() =>
+                    openApp(
+                      preview.openApp!,
+                      preview.openSlug ? { slug: preview.openSlug } : undefined,
+                    )
+                  }
                 >
                   Open with app
                 </button>

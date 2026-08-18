@@ -41,6 +41,8 @@ const OPEN_ALIASES: Record<string, AppId> = {
   projects: "projects",
   work: "projects",
   contact: "contact",
+  blog: "blog",
+  midori: "blog",
   terminal: "terminal",
   files: "files",
   thunar: "files",

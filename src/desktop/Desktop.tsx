@@ -18,7 +18,9 @@ import { FirefoxApp } from "../apps/FirefoxApp";
 import { SettingsApp } from "../apps/SettingsApp";
 import { ShowcaseApp } from "../apps/ShowcaseApp";
 import { XEyesApp } from "../apps/XEyesApp";
+import { BlogApp } from "../apps/BlogApp";
 import { portfolio } from "../content/portfolio";
+import { parseBlogLocation } from "../content/blogLocation";
 import "./Desktop.css";
 
 function AppContent({ id }: { id: AppId }) {
@@ -47,6 +49,8 @@ function AppContent({ id }: { id: AppId }) {
       return <ShowcaseApp />;
     case "xeyes":
       return <XEyesApp />;
+    case "blog":
+      return <BlogApp />;
   }
 }
 
@@ -105,6 +109,11 @@ export function Desktop() {
   const konami = useRef(0);
 
   useEffect(() => {
+    const loc = parseBlogLocation(window.location);
+    if (loc) {
+      openApp("blog", { slug: loc.slug ?? undefined });
+      return;
+    }
     if (!state.autostart) return;
     openApp("about");
     openApp("firefox");

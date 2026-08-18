@@ -25,6 +25,9 @@ export function IdentityHero() {
         <button type="button" className="id-hero-btn" onClick={() => openApp("projects")}>
           Work
         </button>
+        <button type="button" className="id-hero-btn" onClick={() => openApp("blog")}>
+          Blog
+        </button>
         <a className="id-hero-link" href={`mailto:${portfolio.contact.email}`}>
           Email
         </a>
@@ -60,6 +63,9 @@ export function IdentityWidget() {
           ))}
         </ul>
         <div className="id-actions">
+          <button type="button" className="id-btn" onClick={() => openApp("blog")}>
+            Blog
+          </button>
           <button type="button" className="id-btn" onClick={() => openApp("contact")}>
             Contact
           </button>

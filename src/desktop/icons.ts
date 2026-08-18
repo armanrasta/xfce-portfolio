@@ -21,6 +21,12 @@ export const DESKTOP_ICONS: IconDef[] = [
     description: "Selected work and experiments",
   },
   {
+    id: "blog",
+    label: "Blog",
+    category: "Internet",
+    description: "Notes and writing",
+  },
+  {
     id: "contact",
     label: "Contact",
     category: "Internet",

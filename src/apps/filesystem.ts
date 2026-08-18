@@ -1,8 +1,10 @@
 import { portfolio } from "../content/portfolio";
+import { getPosts } from "../content/blog";
+import type { AppId } from "../session/SessionContext";
 
 export type FsNode =
   | { type: "dir"; name: string; children: FsNode[] }
-  | { type: "file"; name: string; content: string; openApp?: "about" | "projects" | "contact" };
+  | { type: "file"; name: string; content: string; openApp?: AppId; openSlug?: string };
 
 export const homeFs: FsNode = {
   type: "dir",
@@ -14,6 +16,7 @@ export const homeFs: FsNode = {
       children: [
         { type: "file", name: "About.desktop", content: "Open About app", openApp: "about" },
         { type: "file", name: "Projects.desktop", content: "Open Projects app", openApp: "projects" },
+        { type: "file", name: "Blog.desktop", content: "Open Blog", openApp: "blog" },
         { type: "file", name: "Terminal.desktop", content: "Open Terminal" },
       ],
     },
@@ -61,6 +64,17 @@ export const homeFs: FsNode = {
             name: `${p.id}.md`,
             content: `# ${p.name}\n\n${p.summary}\n\nTags: ${p.tags.join(", ")}\n`,
             openApp: "projects" as const,
+          })),
+        },
+        {
+          type: "dir",
+          name: "Blog",
+          children: getPosts().map((p) => ({
+            type: "file" as const,
+            name: `${p.slug}.md`,
+            content: `# ${p.title}\n\n${p.date}\n\n${p.body}`,
+            openApp: "blog" as const,
+            openSlug: p.slug,
           })),
         },
         {
